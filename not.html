@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notes, Handbooks & Cheatsheets - Dion Learn</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-body: radial-gradient(circle at top right,#312e81 0%,transparent 30%), radial-gradient(circle at bottom left,#581c87 0%,transparent 30%), #020617;
+      --bg-nav: rgba(2, 6, 23, 0.65);
+      --bg-card: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.88));
+      --bg-footer: #010313;
+      --bg-theme-btn: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+      --accent-color: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --shadow-nav: 0 8px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    body.light-mode {
+      --bg-body: radial-gradient(circle at top right, #e0e7ff 0%, transparent 30%), radial-gradient(circle at bottom left, #f3e8ff 0%, transparent 30%), #f8fafc;
+      --bg-nav: rgba(248, 250, 252, 0.75);
+      --bg-card: linear-gradient(145deg, #ffffff, #f1f5f9);
+      --bg-footer: #e2e8f0;
+      --bg-theme-btn: rgba(15, 23, 42, 0.08);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent-color: #7c3aed;
+      --accent-hover: #6d28d9;
+      --border-color: rgba(15, 23, 42, 0.08);
+      --shadow-nav: 0 8px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+    body {
+      background: var(--bg-body);
+      color: var(--text-main);
+      transition: background 0.4s ease, color 0.4s ease;
+      padding-top: 100px;
+    }
+
+    /* NAVBAR */
+    nav {
+      width: 100%; padding: 18px 70px;
+      display: flex; justify-content: space-between; align-items: center;
+      position: fixed; top: 0; z-index: 1000;
+      background: var(--bg-nav); backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: var(--shadow-nav);
+    }
+    .logo { font-size: 32px; font-weight: 800; color: var(--text-main); text-decoration: none; }
+    .logo span { color: var(--accent-color); }
+    .nav-links { display: flex; gap: 35px; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 15px; transition: 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text-main); }
+    .nav-buttons { display: flex; gap: 15px; align-items: center; }
+    .login-btn { padding: 11px 22px; border: 1px solid var(--border-color); border-radius: 12px; background: transparent; color: var(--text-main); cursor: pointer; font-size: 14px; transition: 0.3s; font-family:'Poppins',sans-serif; }
+    .login-btn:hover { border-color: var(--accent-color); }
+    .signup-btn { padding: 11px 22px; border: none; border-radius: 12px; background: var(--accent-color); color: white; font-weight: 600; cursor: pointer; font-size: 14px; transition: 0.3s; font-family:'Poppins',sans-serif; }
+    .signup-btn:hover { background: var(--accent-hover); }
+    .theme-btn { width: 48px; height: 48px; border: none; border-radius: 14px; background: var(--bg-theme-btn); color: var(--text-main); cursor: pointer; font-size: 18px; }
+
+    /* MAIN CONTAINER */
+    .container { max-width: 1050px; margin: 0 auto; padding: 20px 30px 60px; }
+
+    /* SECTION TITLE */
+    .section-header { text-align: center; margin-bottom: 35px; }
+    .section-title {
+      font-size: 36px; font-weight: 800;
+      padding-bottom: 12px;
+      border-bottom: 3px solid var(--accent-color);
+      display: inline-block;
+    }
+    .section-title span { color: var(--accent-color); }
+    .section-subtitle { color: var(--text-muted); font-size: 15px; margin-top: 8px; }
+
+    /* DOWNLOAD CARDS */
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 10px;
+    }
+    .download-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px 18px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .download-card:hover {
+      border-color: var(--accent-color);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(139,92,246,0.15);
+    }
+    .download-card .icon { font-size: 44px; }
+    .download-card h4 { font-size: 18px; font-weight: 700; color: var(--text-main); }
+
+    /* Handbook card - special styling */
+    .download-card.handbook {
+      border: 2px solid var(--accent-color);
+      background: linear-gradient(145deg, rgba(139,92,246,0.15), rgba(139,92,246,0.05));
+    }
+    .download-card.handbook .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--accent-color);
+      color: white;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+    .view-btn, .download-btn {
+      display: inline-block; text-decoration: none;
+      padding: 10px 20px; border-radius: 10px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: 0.3s; text-align: center;
+      font-family:'Poppins',sans-serif;
+    }
+    .view-btn {
+      background: transparent; color: var(--accent-color);
+      border: 1.5px solid var(--accent-color);
+    }
+    .view-btn:hover { background: var(--accent-color); color: white; }
+    .download-btn {
+      background: var(--accent-color); color: white; border: none;
+    }
+    .download-btn:hover { background: var(--accent-hover); }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 40px 0;
+    }
+
+    /* COMING SOON */
+    .coming-soon-banner {
+      text-align: center; padding: 30px;
+      background: var(--bg-card);
+      border: 1px dashed var(--accent-color);
+      border-radius: 16px; margin-top: 20px;
+    }
+    .coming-soon-banner p { color: var(--text-muted); font-size: 15px; }
+    .coming-soon-banner strong { color: var(--accent-color); }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 40px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted); background: var(--bg-footer);
+      font-size: 15px; margin-top: 40px;
+    }
+
+    @media(max-width: 768px) {
+      nav { padding: 18px 20px; }
+      .nav-links { display: none; }
+      .container { padding: 15px; }
+      .section-title { font-size: 26px; }
+      .download-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .download-card { padding: 20px 12px; }
+      .download-card .icon { font-size: 34px; }
+      .download-card h4 { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="copy.html" class="logo">Dion<span>Learn</span></a>
+    <div class="nav-links">
+      <a href="copy.html">Home</a>
+      <a href="cource.html">Courses</a>
+      <a href="not.html" class="active">Notes</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-buttons">
+      <button class="login-btn" onclick="goToLogin('signin')">Login</button>
+      <button class="signup-btn" onclick="goToLogin('signup')">Signup</button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- ==================== HANDBOOK SECTION ==================== -->
+    <div class="section-header">
+      <h2 class="section-title">📘 Download <span>Handbooks</span></h2>
+      <p class="section-subtitle">Complete reference guides — everything in one place</p>
+    </div>
+
+    <div class="download-grid">
+      <!-- HTML Handbook -->
+      <div class="download-card handbook">
+        <div class="badge">🌟 Most Popular</div>
+        <div class="icon">📘</div>
+        <h4>HTML Ultimate Handbook</h4>
+        <p style="color:var(--text-muted);font-size:12px;margin-top:-8px;">10 Chapters • 100+ Examples • PDF</p>
+        <div class="btn-group">
+          <a href="html-handbook.html" class="view-btn">👁️ Read Online</a>
+          
+        </div>
+      </div>
+
+      <!-- CSS Handbook -->
+      <div class="download-card">
+        <div class="icon">🎨</div>
+        <h4>CSS Handbook</h4>
+        <p style="color:var(--text-muted);font-size:12px;margin-top:-8px;">Coming Soon</p>
+        <button class="download-btn" style="opacity:0.5;cursor:not-allowed;">🚀 Coming Soon</button>
+      </div>
+
+      <!-- JavaScript Handbook -->
+      <div class="download-card">
+        <div class="icon">⚡</div>
+        <h4>JavaScript Handbook</h4>
+        <p style="color:var(--text-muted);font-size:12px;margin-top:-8px;">Coming Soon</p>
+        <button class="download-btn" style="opacity:0.5;cursor:not-allowed;">🚀 Coming Soon</button>
+      </div>
+    </div>
+
+    <div class="coming-soon-banner">
+      <p>📘 <strong>Handbook = Complete Guide.</strong> Covers everything from basics to advanced with real-world examples. Perfect for deep learning!</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ==================== NOTES SECTION ==================== -->
+    <div class="section-header">
+      <h2 class="section-title">📝 Download <span>Notes</span></h2>
+      <p class="section-subtitle">Summarized study notes for quick learning</p>
+    </div>
+
+    <div class="download-grid">
+      <div class="download-card">
+        <div class="icon">🌐</div>
+        <h4>HTML Notes</h4>
+        <div class="btn-group">
+          <button class="download-btn" style="opacity:0.5;cursor:not-allowed;">🚀 Coming Soon</button>
+        </div>
+      </div>
+      <div class="download-card">
+        <div class="icon">🎨</div>
+        <h4>CSS Notes</h4>
+        <button class="download-btn" style="opacity:0.5;cursor:not-allowed;">🚀 Coming Soon</button>
+      </div>
+      <div class="download-card">
+        <div class="icon">⚡</div>
+        <h4>JavaScript Notes</h4>
+        <button class="download-btn" style="opacity:0.5;cursor:not-allowed;">🚀 Coming Soon</button>
+      </div>
+    </div>
+
+    <div class="coming-soon-banner">
+      <p>🚀 <strong>More notes coming soon:</strong> React, Node.js, MongoDB, and more!</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ==================== CHEATSHEETS SECTION ==================== -->
+    <div class="section-header">
+      <h2 class="section-title">📋 Download <span>Cheatsheets</span></h2>
+      <p class="section-subtitle">Quick reference guides for fast revision</p>
+    </div>
+
+    <div class="download-grid">
+      <div class="download-card">
+        <div class="icon">🌐</div>
+        <h4>HTML Cheatsheet</h4>
+        <button class="download-btn" style="opacity:0.5;cursor:not-allowed;">🚀 Coming Soon</button>
+      </div>
+      <div class="download-card">
+        <div class="icon">🎨</div>
+        <h4>CSS Cheatsheet</h4>
+        <button class="download-btn" style="opacity:0.5;cursor:not-allowed;">🚀 Coming Soon</button>
+      </div>
+      <div class="download-card">
+        <div class="icon">⚡</div>
+        <h4>JavaScript Cheatsheet</h4>
+        <button class="download-btn" style="opacity:0.5;cursor:not-allowed;">🚀 Coming Soon</button>
+      </div>
+    </div>
+
+    <div class="coming-soon-banner">
+      <p>🚀 <strong>More cheatsheets coming soon:</strong> React, Git, SQL, and more!</p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2026 Dion Learn • Learn • Build • Create 🚀
+  </footer>
+
+  <!-- SCRIPTS -->
+<script src="auth.js"></script>
+</body>
+</html>
