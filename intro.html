@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HTML Introduction - Dion Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: radial-gradient(circle at top right,#312e81 0%,transparent 30%), radial-gradient(circle at bottom left,#581c87 0%,transparent 30%), #020617;
+      --bg-nav: rgba(2, 6, 23, 0.75);
+      --bg-sidebar: rgba(15, 23, 42, 0.95);
+      --bg-content: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.88));
+      --bg-code: #0f172a;
+      --bg-footer: #010313;
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+      --accent: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --accent-light: rgba(139, 92, 246, 0.12);
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --sidebar-width: 300px;
+    }
+    body.light-mode {
+      --bg-body: radial-gradient(circle at top right, #e0e7ff 0%, transparent 30%), radial-gradient(circle at bottom left, #f3e8ff 0%, transparent 30%), #f8fafc;
+      --bg-nav: rgba(248, 250, 252, 0.85);
+      --bg-sidebar: #ffffff;
+      --bg-content: linear-gradient(145deg, #ffffff, #f1f5f9);
+      --bg-code: #1e293b;
+      --bg-footer: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --accent-light: rgba(124, 58, 237, 0.08);
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body {
+      background: var(--bg-body); color: var(--text-main);
+      transition: all 0.3s ease; padding-top: 80px;
+    }
+
+    /* NAVBAR */
+    nav {
+      width:100%; padding:16px 50px; display:flex; justify-content:space-between;
+      align-items:center; position:fixed; top:0; z-index:1000;
+      background: var(--bg-nav); backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .logo { font-size:28px; font-weight:800; color:var(--text-main); text-decoration:none; }
+    .logo span { color:var(--accent); }
+    .nav-links { display:flex; gap:30px; align-items:center; }
+    .nav-links a { text-decoration:none; color:var(--text-muted); font-size:14px; transition:0.3s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--text-main); }
+    .nav-buttons { display:flex; gap:12px; align-items:center; }
+    .login-btn, .signup-btn { padding:9px 20px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; transition:0.3s; }
+    .login-btn { background:transparent; border:1px solid var(--border); color:var(--text-main); }
+    .login-btn:hover { border-color:var(--accent); }
+    .signup-btn { background:var(--accent); color:white; border:none; }
+    .signup-btn:hover { background:var(--accent-hover); }
+    .theme-btn { width:42px; height:42px; border:none; border-radius:12px; background:rgba(255,255,255,0.08); color:var(--text-main); cursor:pointer; font-size:16px; }
+
+    /* LAYOUT */
+    .layout { display:flex; max-width:1500px; margin:0 auto; min-height:calc(100vh - 180px); }
+
+    /* SIDEBAR */
+    .sidebar {
+      width:var(--sidebar-width); min-width:var(--sidebar-width);
+      background:var(--bg-sidebar); border-right:1px solid var(--border);
+      overflow-y:auto; height:calc(100vh - 80px); position:sticky; top:80px;
+      padding:8px 0 20px;
+    }
+    .sidebar-search { padding:14px 16px; position:sticky; top:0; background:var(--bg-sidebar); z-index:10; }
+    .sidebar-search input {
+      width:100%; padding:10px 14px; border-radius:10px;
+      border:1px solid var(--border); background:var(--bg-code); color:var(--text-main);
+      font-size:13px; outline:none; transition:0.3s;
+    }
+    .sidebar-search input:focus { border-color:var(--accent); }
+    .sidebar-category {
+      font-size:11px; font-weight:700; text-transform:uppercase;
+      letter-spacing:1.5px; color:var(--accent); padding:14px 18px 6px; margin-top:4px;
+    }
+    .sidebar a {
+      display:block; padding:7px 18px; text-decoration:none; color:var(--text-muted);
+      font-size:13px; transition:0.2s; border-left:3px solid transparent;
+    }
+    .sidebar a:hover, .sidebar a.active {
+      color:var(--accent); background:var(--accent-light); border-left-color:var(--accent);
+    }
+
+    /* CONTENT */
+    .content { flex:1; padding:30px 40px; overflow-y:auto; }
+
+    /* BREADCRUMB */
+    .breadcrumb { font-size:13px; color:var(--text-muted); margin-bottom:20px; }
+    .breadcrumb a { color:var(--accent); text-decoration:none; }
+    .breadcrumb a:hover { text-decoration:underline; }
+
+    /* SECTIONS */
+    .section {
+      background:var(--bg-content); border:1px solid var(--border);
+      border-radius:20px; padding:35px; margin-bottom:25px; box-shadow:var(--shadow);
+    }
+    .section h1 { font-size:36px; font-weight:800; margin-bottom:10px; }
+    .section h1 span { color:var(--accent); }
+    .section h2 { font-size:24px; font-weight:700; margin:28px 0 12px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+    .section h3 { font-size:18px; font-weight:600; margin:20px 0 8px; color:var(--accent); }
+    .section p { color:var(--text-muted); font-size:15px; line-height:1.8; margin-bottom:14px; }
+    .section ul, .section ol { color:var(--text-muted); font-size:15px; line-height:2; padding-left:24px; margin-bottom:14px; }
+    .section ul li, .section ol li { margin-bottom:4px; }
+    .section strong { color:var(--text-main); }
+    .section code { background:var(--bg-code); padding:2px 8px; border-radius:4px; font-family:'Courier New',monospace; font-size:13px; color:var(--accent); }
+
+    /* CODE BLOCK */
+    .code-block {
+      background:var(--bg-code); border:1px solid var(--border);
+      border-radius:12px; padding:18px 22px; margin:14px 0; overflow-x:auto;
+      position:relative;
+    }
+    .code-block pre { margin:0; font-family:'Courier New',monospace; font-size:14px; line-height:1.8; color:#e2e8f0; }
+    .code-block .tag { color:#f472b6; }
+    .code-block .attr { color:#67e8f9; }
+    .code-block .value { color:#a5b4fc; }
+    .code-block .comment { color:#64748b; }
+
+    /* BOXES */
+    .note-box { background:rgba(139,92,246,0.1); border-left:4px solid var(--accent); padding:16px 20px; border-radius:0 12px 12px 0; margin:16px 0; }
+    .note-box p { margin:0; font-size:14px; color:var(--text-main); }
+    .tip-box { background:rgba(16,185,129,0.1); border-left:4px solid var(--green); padding:16px 20px; border-radius:0 12px 12px 0; margin:16px 0; }
+    .tip-box p { margin:0; font-size:14px; color:var(--text-main); }
+    .warning-box { background:rgba(245,158,11,0.1); border-left:4px solid var(--yellow); padding:16px 20px; border-radius:0 12px 12px 0; margin:16px 0; }
+    .warning-box p { margin:0; font-size:14px; color:var(--text-main); }
+
+    /* TABLE */
+    .table-wrapper { overflow-x:auto; margin:16px 0; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    table th { background:var(--accent-light); color:var(--accent); padding:14px 16px; text-align:left; font-weight:600; border-bottom:2px solid var(--border); }
+    table td { padding:12px 16px; color:var(--text-muted); border-bottom:1px solid var(--border); }
+    table tr:hover td { background:rgba(139,92,246,0.05); }
+
+    /* BUTTONS */
+    .btn { display:inline-block; padding:12px 24px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; cursor:pointer; transition:0.3s; }
+    .btn-primary { background:var(--accent); color:white; }
+    .btn-primary:hover { background:var(--accent-hover); transform:translateY(-2px); }
+    .btn-outline { background:transparent; border:1px solid var(--border); color:var(--text-main); }
+    .btn-outline:hover { border-color:var(--accent); background:var(--accent-light); }
+
+    /* NAV BTNS */
+    .nav-btns { display:flex; justify-content:space-between; margin-top:30px; gap:15px; flex-wrap:wrap; }
+    .nav-btns a { padding:14px 28px; border-radius:12px; font-size:14px; font-weight:600; text-decoration:none; transition:0.3s; text-align:center; }
+    .nav-btns .prev { background:transparent; border:1px solid var(--border); color:var(--text-main); }
+    .nav-btns .prev:hover { border-color:var(--accent); background:var(--accent-light); }
+    .nav-btns .next { background:var(--accent); color:white; }
+    .nav-btns .next:hover { background:var(--accent-hover); transform:translateY(-2px); }
+
+    /* FOOTER */
+    footer { text-align:center; padding:30px; border-top:1px solid var(--border); color:var(--text-muted); background:var(--bg-footer); font-size:14px; margin-top:40px; }
+
+    /* MOBILE */
+    @media(max-width:900px) {
+      .sidebar { display:none; }
+      .content { padding:20px; }
+      nav { padding:14px 20px; }
+      .nav-links { display:none; }
+      .section { padding:20px; }
+      .section h1 { font-size:26px; }
+      .section h2 { font-size:20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="html-tutorial.html" class="logo">Dion<span>Learn</span></a>
+  <div class="nav-links">
+    <a href="copy.html">Home</a>
+    <a href="cource.html">Courses</a>
+    <a href="contact.html">Contact</a>
+    <a href="notes.html">Notes</a>
+   
+  </div>
+</div>
+  <div class="nav-buttons">
+    <button class="login-btn" onclick="goToLogin('signin')">Login</button>
+    <button class="signup-btn" onclick="goToLogin('signup')">Signup</button>
+  </div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR (Same as Tutorial Hub) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-search">
+      <input type="text" id="searchTopics" placeholder="🔍 Search topics..." oninput="filterTopics()">
+    </div>
+
+    <div class="sidebar-category">📘 HTML Tutorial</div>
+    <a href="home.html">HTML HOME</a>
+    <a href="intro.html" class="active">HTML Introduction</a>
+    <a href="html-editors.html">HTML Editors</a>
+    <a href="html-basic.html">HTML Basic</a>
+    <a href="html-elements.html">HTML Elements</a>
+    <a href="html-attributes.html">HTML Attributes</a>
+    <a href="html-headings.html">HTML Headings</a>
+    <a href="html-paragraphs.html">HTML Paragraphs</a>
+    <a href="html-styles.html">HTML Styles</a>
+    <a href="html-formatting.html">HTML Formatting</a>
+    <a href="html-quotations.html">HTML Quotations</a>
+    <a href="html-comments.html">HTML Comments</a>
+    <a href="html-colors.html">HTML Colors</a>
+    <a href="html-css.html">HTML CSS</a>
+    <a href="html-links.html">HTML Links</a>
+    <a href="html-images.html">HTML Images</a>
+    <a href="html-favicon.html">HTML Favicon</a>
+    <a href="html-page-title.html">HTML Page Title</a>
+    <a href="html-tables.html">HTML Tables</a>
+    <a href="html-lists.html">HTML Lists</a>
+    <a href="html-block-inline.html">HTML Block &amp; Inline</a>
+    <a href="html-div.html">HTML Div</a>
+    <a href="html-classes.html">HTML Classes</a>
+    <a href="html-id.html">HTML Id</a>
+    <a href="html-buttons.html">HTML Buttons</a>
+    <a href="html-iframes.html">HTML Iframes</a>
+    <a href="html-javascript.html">HTML JavaScript</a>
+    <a href="html-file-paths.html">HTML File Paths</a>
+    <a href="html-head.html">HTML Head</a>
+    <a href="html-layout.html">HTML Layout</a>
+    <a href="html-responsive.html">HTML Responsive</a>
+    <a href="html-computercode.html">HTML Computercode</a>
+    <a href="html-semantics.html">HTML Semantics</a>
+    <a href="html-style-guide.html">HTML Style Guide</a>
+    <a href="html-entities.html">HTML Entities</a>
+    <a href="html-symbols.html">HTML Symbols</a>
+    <a href="html-emojis.html">HTML Emojis</a>
+    <a href="html-charsets.html">HTML Charsets</a>
+    <a href="html-url-encode.html">HTML URL Encode</a>
+    <a href="html-vs-xhtml.html">HTML vs. XHTML</a>
+
+    <div class="sidebar-category">📝 HTML Forms</div>
+    <a href="html-forms.html">HTML Forms</a>
+    <a href="html-form-attributes.html">HTML Form Attributes</a>
+    <a href="html-form-elements.html">HTML Form Elements</a>
+    <a href="html-input-types.html">HTML Input Types</a>
+    <a href="html-input-attributes.html">HTML Input Attributes</a>
+    <a href="html-input-form-attributes.html">Input Form Attributes</a>
+
+    <div class="sidebar-category">🎨 HTML Graphics</div>
+    <a href="html-canvas.html">HTML Canvas</a>
+    <a href="html-svg.html">HTML SVG</a>
+
+    <div class="sidebar-category">🎬 HTML Media</div>
+    <a href="html-media.html">HTML Media</a>
+    <a href="html-video.html">HTML Video</a>
+    <a href="html-audio.html">HTML Audio</a>
+    <a href="html-plugins.html">HTML Plug-ins</a>
+    <a href="html-youtube.html">HTML YouTube</a>
+
+    <div class="sidebar-category">🔌 HTML APIs</div>
+    <a href="html-web-apis.html">HTML Web APIs</a>
+    <a href="html-geolocation.html">HTML Geolocation</a>
+    <a href="html-drag-drop.html">HTML Drag and Drop</a>
+    <a href="html-web-storage.html">HTML Web Storage</a>
+    <a href="html-web-workers.html">HTML Web Workers</a>
+    <a href="html-sse.html">HTML SSE</a>
+
+   
+
+    <div class="sidebar-category">💡 HTML Examples</div>
+    <a href="html-examples.html">HTML Examples</a>
+   
+    <a href="html-quiz.html">HTML Quiz</a>
+    <a href="html-exercises.html">HTML Exercises</a>
+    <a href="html-challenges.html">HTML Challenges</a>
+    <a href="html-website.html">HTML Website</a>
+    <a href="html-syllabus.html">HTML Syllabus</a>
+    <a href="html-study-plan.html">HTML Study Plan</a>
+    <a href="html-interview-prep.html">HTML Interview Prep</a>
+    <a href="html-bootcamp.html">HTML Bootcamp</a>
+    <a href="html-summary.html">HTML Summary</a>
+    <a href="html-accessibility.html">HTML Accessibility</a>
+
+    <div class="sidebar-category">📚 HTML References</div>
+    <a href="html-tag-list.html">HTML Tag List</a>
+    <a href="html-attributes-ref.html">HTML Attributes</a>
+    <a href="html-global-attributes.html">HTML Global Attributes</a>
+    <a href="html-browser-support.html">HTML Browser Support</a>
+    <a href="html-events.html">HTML Events</a>
+    <a href="html-colors-ref.html">HTML Colors</a>
+    <a href="html-canvas-ref.html">HTML Canvas</a>
+    <a href="html-audio-video-ref.html">HTML Audio/Video</a>
+    <a href="html-doctypes.html">HTML Doctypes</a>
+    <a href="html-character-sets.html">HTML Character Sets</a>
+    <a href="html-url-encode-ref.html">HTML URL Encode</a>
+    <a href="html-lang-codes.html">HTML Lang Codes</a>
+    <a href="http-messages.html">HTTP Messages</a>
+    <a href="http-methods.html">HTTP Methods</a>
+    <a href="px-to-em-converter.html">PX to EM Converter</a>
+    <a href="keyboard-shortcuts.html">Keyboard Shortcuts</a>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+      <a href="html-tutorial.html">HTML Tutorial</a> → HTML Introduction
+    </div>
+
+    <!-- HERO -->
+    <div class="section">
+      <h1>📖 HTML <span>Introduction</span></h1>
+      <p>HTML is the <strong>standard markup language</strong> for creating Web pages. It describes the structure of a Web page and consists of a series of elements that tell the browser how to display the content.</p>
+
+      <div class="tip-box">
+        <p><strong>💡 Fun Fact:</strong> HTML was invented by <strong>Sir Tim Berners-Lee</strong> in 1991 at CERN. The first ever website (<a href="http://info.cern.ch" target="_blank" style="color:var(--accent);">info.cern.ch</a>) is still live today!</p>
+      </div>
+    </div>
+
+    <!-- WHAT IS HTML -->
+    <div class="section">
+      <h2>🤔 What is HTML?</h2>
+      <p><strong>HTML</strong> stands for:</p>
+      <ul>
+        <li><strong>H</strong>yper — Links that connect pages together</li>
+        <li><strong>T</strong>ext — Content (words, images, videos)</li>
+        <li><strong>M</strong>arkup — Tags that "mark up" or annotate content</li>
+        <li><strong>L</strong>anguage — A system with specific rules (syntax)</li>
+      </ul>
+
+      <div class="note-box">
+        <p><strong>🧠 Key Point:</strong> HTML is <strong>NOT a programming language</strong>. It's a <strong>markup language</strong>. It doesn't do calculations or logic — it simply structures content. Programming logic is handled by <strong>JavaScript</strong>.</p>
+      </div>
+
+      <h3>A Simple HTML Document</h3>
+      <div class="code-block">
+        <pre><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="value">"en"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="value">"UTF-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="value">"viewport"</span> <span class="attr">content</span>=<span class="value">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>My First Web Page<span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;h1&gt;</span>Hello, World!<span class="tag">&lt;/h1&gt;</span>
+  <span class="tag">&lt;p&gt;</span>Welcome to my website.<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></pre>
+      </div>
+
+      <h3>Example Explained Line-by-Line</h3>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>Line</th><th>Code</th><th>Explanation</th></tr>
+          <tr><td>1</td><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Declares this is an HTML5 document (must be first line)</td></tr>
+          <tr><td>2</td><td><code>&lt;html lang="en"&gt;</code></td><td>Root element — wraps ALL content. <code>lang="en"</code> tells search engines the page is in English</td></tr>
+          <tr><td>3</td><td><code>&lt;head&gt;</code></td><td>Contains meta-info (not visible to users) — title, CSS links, scripts</td></tr>
+          <tr><td>4</td><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>Sets character encoding to support all languages and emojis</td></tr>
+          <tr><td>5</td><td><code>&lt;meta name="viewport"...&gt;</code></td><td>Makes page responsive on mobile devices</td></tr>
+          <tr><td>6</td><td><code>&lt;title&gt;</code></td><td>Shows in browser tab — crucial for SEO</td></tr>
+          <tr><td>7</td><td><code>&lt;/head&gt;</code></td><td>Closes the head section</td></tr>
+          <tr><td>8</td><td><code>&lt;body&gt;</code></td><td>Everything VISIBLE on the page goes here</td></tr>
+          <tr><td>9</td><td><code>&lt;h1&gt;</code></td><td>Main heading (largest, most important)</td></tr>
+          <tr><td>10</td><td><code>&lt;p&gt;</code></td><td>Paragraph of text</td></tr>
+          <tr><td>11</td><td><code>&lt;/body&gt;</code></td><td>Closes body</td></tr>
+          <tr><td>12</td><td><code>&lt;/html&gt;</code></td><td>Closes HTML document</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- HTML ELEMENTS -->
+    <div class="section">
+      <h2>🧩 What are HTML Elements?</h2>
+      <p>An <strong>HTML element</strong> is everything from the start tag to the end tag:</p>
+
+      <div class="code-block">
+        <pre><span class="tag">&lt;tagname&gt;</span>Content goes here...<span class="tag">&lt;/tagname&gt;</span></pre>
+      </div>
+
+      <h3>Parts of an HTML Element</h3>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>Part</th><th>Example</th><th>Description</th></tr>
+          <tr><td><strong>Start tag</strong></td><td><code>&lt;p&gt;</code></td><td>Marks the beginning of an element</td></tr>
+          <tr><td><strong>Content</strong></td><td>Hello World</td><td>The actual text or nested elements</td></tr>
+          <tr><td><strong>End tag</strong></td><td><code>&lt;/p&gt;</code></td><td>Marks the end (has a forward slash)</td></tr>
+        </table>
+      </div>
+
+      <div class="warning-box">
+        <p><strong>⚠️ Important:</strong> Some elements are <strong>empty</strong> (self-closing) — they have NO content and NO end tag. Examples: <code>&lt;br&gt;</code> (line break), <code>&lt;hr&gt;</code> (horizontal rule), <code>&lt;img&gt;</code> (image), <code>&lt;input&gt;</code> (form input).</p>
+      </div>
+
+      <h3>Nested Elements</h3>
+      <p>HTML elements can contain other elements — this is called <strong>nesting</strong>:</p>
+      <div class="code-block">
+        <pre><span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;div&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Main Heading<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;p&gt;</span>This is a paragraph inside a div.<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/body&gt;</span></pre>
+      </div>
+      <p>Here, <code>&lt;body&gt;</code> is the <strong>parent</strong>, <code>&lt;div&gt;</code> is the <strong>child</strong> of body and <strong>parent</strong> of <code>&lt;h1&gt;</code> and <code>&lt;p&gt;</code>.</p>
+    </div>
+
+    <!-- HOW BROWSERS WORK -->
+    <div class="section">
+      <h2>🖥️ How Web Browsers Process HTML</h2>
+      <p>When you visit a website, here's what happens step-by-step:</p>
+
+      <ol>
+        <li><strong>You enter a URL</strong> (like <code>google.com</code>) or open an HTML file</li>
+        <li><strong>The browser fetches the HTML document</strong> from a server or your local computer</li>
+        <li><strong>The browser parses the HTML</strong> — reads it top to bottom and builds a <strong>DOM Tree</strong> (Document Object Model)</li>
+        <li><strong>The DOM Tree</strong> is a hierarchical representation of all elements — parent → child relationships</li>
+        <li><strong>CSS is applied</strong> to style each element (colors, sizes, layout)</li>
+        <li><strong>JavaScript executes</strong> to add interactivity (clicks, animations, dynamic content)</li>
+        <li><strong>The page renders</strong> (paints) on your screen as the final visual result</li>
+      </ol>
+
+      <div class="note-box">
+        <p><strong>🧠 DOM = Document Object Model:</strong> Think of it as a family tree of HTML elements. The browser uses this tree to understand which element is inside which, and to apply styles and scripts correctly.</p>
+      </div>
+
+      <div class="tip-box">
+        <p><strong>💡 Browsers are forgiving:</strong> If you make small mistakes (like forgetting a closing tag), modern browsers try to fix them automatically. But <strong>don't rely on this</strong> — always write valid, clean HTML!</p>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="section">
+      <h2>📜 A Brief History of HTML</h2>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>Year</th><th>Version</th><th>Key Features</th></tr>
+          <tr><td><strong>1991</strong></td><td>HTML 1.0</td><td>Created by Tim Berners-Lee. Basic structure: headings, paragraphs, links — only 18 tags!</td></tr>
+          <tr><td><strong>1995</strong></td><td>HTML 2.0</td><td>Became official standard. Added forms, tables, image maps</td></tr>
+          <tr><td><strong>1997</strong></td><td>HTML 3.2</td><td>W3C standard. More formatting options, applets, better table support</td></tr>
+          <tr><td><strong>1999</strong></td><td>HTML 4.01</td><td>Major update. CSS integration, accessibility features, frames, better forms</td></tr>
+          <tr><td><strong>2000</strong></td><td>XHTML 1.0</td><td>HTML reformulated as XML — stricter rules, must be well-formed</td></tr>
+          <tr><td><strong>2014</strong></td><td><strong>HTML5</strong></td><td>🎯 <strong>Current standard!</strong> Video, audio, canvas, semantic tags, local storage, geolocation, drag & drop, and more!</td></tr>
+        </table>
+      </div>
+
+      <div class="note-box">
+        <p><strong>🌟 Today:</strong> <strong>HTML5</strong> is the modern standard used by ALL websites. It's supported by every browser (Chrome, Firefox, Safari, Edge). This entire tutorial teaches <strong>HTML5</strong>.</p>
+      </div>
+    </div>
+
+    <!-- WHY LEARN -->
+    <div class="section">
+      <h2>💪 Why Should You Learn HTML?</h2>
+
+      <h3>1. It's the Foundation of the Web</h3>
+      <p>Every website — Google, YouTube, Facebook, Amazon — is built with HTML. It's the <strong>universal language</strong> of the internet. Without HTML, there is no web.</p>
+
+      <h3>2. Extremely Easy to Learn</h3>
+      <p>You can create your first working web page in <strong>under 5 minutes</strong>! The syntax is readable and intuitive — even non-programmers can learn it quickly.</p>
+
+      <h3>3. High Demand Career Skill</h3>
+      <p>Web development is one of the fastest-growing fields globally. HTML is the <strong>first skill</strong> every web developer learns. The average web developer salary is excellent worldwide.</p>
+
+      <h3>4. Works with Other Technologies</h3>
+      <p>HTML is the starting point that connects with:</p>
+      <ul>
+        <li><strong>CSS</strong> — Makes pages beautiful</li>
+        <li><strong>JavaScript</strong> — Makes pages interactive</li>
+        <li><strong>Backend languages</strong> (Python, PHP, Node.js) — Create dynamic content</li>
+        <li><strong>Frameworks</strong> (React, Angular, Vue) — Build complex applications</li>
+      </ul>
+
+      <h3>5. Completely Free</h3>
+      <p>No licenses, no subscriptions, no special software. You can write HTML in <strong>Notepad</strong> and view it in any browser — 100% free forever!</p>
+    </div>
+
+    <!-- NEXT STEPS -->
+    <div class="section">
+      <h2>🚀 Ready to Start Coding?</h2>
+      <p>In the next chapter, you'll learn about <strong>HTML Editors</strong> — the best tools to write HTML code efficiently:</p>
+      <ul>
+        <li>✅ VS Code (Recommended — Free & Powerful)</li>
+        <li>✅ Sublime Text (Fast & Lightweight)</li>
+        <li>✅ Notepad++ (Simple Windows Editor)</li>
+        <li>✅ Online Editors (Code right in your browser)</li>
+      </ul>
+
+      <div class="tip-box">
+        <p><strong>💡 Pro Tip:</strong> Don't just read — <strong>code along!</strong> Open a text editor right now and type every example you see. The <strong>best way to learn HTML is by doing</strong> — not just reading.</p>
+      </div>
+
+     
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="nav-btns">
+      <a href="home.html" class="prev">← Previous: HTML HOME</a>
+      <a href="html-editors.html" class="next">Next: HTML Editors →</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2026 Dion Learn • Learn • Build • Create 🚀
+</footer>
+
+<script>
+  // Theme Toggle
+  const themeToggle = document.getElementById("themeToggle");
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "light") {
+    document.body.classList.add("light-mode");
+    themeToggle.innerHTML = "☀️";
+  }
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+    themeToggle.innerHTML = document.body.classList.contains("light-mode") ? "☀️" : "🌙";
+    localStorage.setItem("theme", document.body.classList.contains("light-mode") ? "light" : "dark");
+  });
+
+  // Sidebar Filter
+  function goToLogin(tab){localStorage.setItem("returnPage",window.location.href);window.location.href="login.html?tab="+tab}
+  function filterTopics() {
+    const query = document.getElementById('searchTopics').value.toLowerCase();
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.style.display = link.textContent.toLowerCase().includes(query) ? 'block' : 'none';
+    });
+    document.querySelectorAll('.sidebar-category').forEach(cat => {
+      cat.style.display = query ? 'none' : 'block';
+    });
+  }
+</script>
+<script src="auth.js"></script>
+</body>
+</html>

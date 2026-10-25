@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎉 Congratulations! - Dion Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: radial-gradient(circle at top right,#312e81 0%,transparent 30%), radial-gradient(circle at bottom left,#581c87 0%,transparent 30%), #020617;
+      --bg-nav: rgba(2, 6, 23, 0.75);
+      --bg-card: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.88));
+      --bg-footer: #010313;
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+      --accent: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --accent-light: rgba(139, 92, 246, 0.12);
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --gold: #f59e0b;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body {
+      background: var(--bg-body); color: var(--text-main);
+      min-height:100vh; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; text-align:center;
+      padding:40px 20px; overflow-x:hidden;
+    }
+
+    /* CONFETTI ANIMATION */
+    .confetti-container {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      pointer-events:none; z-index:1; overflow:hidden;
+    }
+    .confetti {
+      position:absolute; width:12px; height:12px; border-radius:3px;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-100vh) rotate(0deg); opacity:1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity:0; }
+    }
+
+    /* MAIN CARD */
+    .congrats-card {
+      position:relative; z-index:2; max-width:700px; width:100%;
+      background: var(--bg-card); border:2px solid var(--gold);
+      border-radius:30px; padding:50px 40px; box-shadow:0 20px 60px rgba(245,158,11,0.2);
+      animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popIn {
+      0% { transform:scale(0.5); opacity:0; }
+      100% { transform:scale(1); opacity:1; }
+    }
+
+    .trophy { font-size:80px; animation: bounce 2s ease-in-out infinite; display:block; }
+    @keyframes bounce {
+      0%,100% { transform:translateY(0); }
+      50% { transform:translateY(-20px); }
+    }
+
+    .congrats-card h1 {
+      font-size:42px; font-weight:800; margin:20px 0 10px;
+      background: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .congrats-card .subtitle {
+      font-size:20px; color:var(--text-muted); margin-bottom:10px;
+    }
+    .congrats-card .message {
+      font-size:16px; color:var(--text-muted); line-height:1.8;
+      margin-bottom:25px;
+    }
+
+    /* STATS */
+    .stats-row {
+      display:flex; gap:15px; justify-content:center; flex-wrap:wrap;
+      margin-bottom:30px;
+    }
+    .stat-box {
+      background:var(--accent-light); border:1px solid var(--border);
+      border-radius:16px; padding:20px 25px; min-width:120px;
+    }
+    .stat-box .num { font-size:32px; font-weight:800; color:var(--accent); }
+    .stat-box .label { font-size:12px; color:var(--text-muted); margin-top:4px; }
+
+    /* BUTTONS */
+    .btn-row { display:flex; gap:15px; justify-content:center; flex-wrap:wrap; }
+    .btn {
+      display:inline-block; padding:16px 32px; border-radius:14px;
+      font-size:16px; font-weight:700; text-decoration:none; cursor:pointer;
+      transition:0.3s; border:none;
+    }
+    .btn-gold {
+      background:linear-gradient(135deg, #f59e0b, #fbbf24); color:#1a1a2e;
+      box-shadow:0 10px 30px rgba(245,158,11,0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .btn-gold:hover { transform:translateY(-3px); box-shadow:0 15px 40px rgba(245,158,11,0.5); }
+    @keyframes pulse {
+      0%,100% { box-shadow:0 10px 30px rgba(245,158,11,0.3); }
+      50% { box-shadow:0 20px 50px rgba(245,158,11,0.6); }
+    }
+    .btn-outline {
+      background:transparent; border:1.5px solid var(--border); color:var(--text-main);
+    }
+    .btn-outline:hover { border-color:var(--accent); background:var(--accent-light); }
+
+    /* PROGRESS BAR */
+    .progress-section { margin:25px 0; }
+    .progress-label { font-size:13px; color:var(--text-muted); margin-bottom:8px; }
+    .progress-bar {
+      width:100%; height:8px; background:var(--border); border-radius:10px;
+      overflow:hidden;
+    }
+    .progress-fill {
+      height:100%; width:45%; background:linear-gradient(90deg, #8b5cf6, #f59e0b);
+      border-radius:10px; animation: fillBar 1.5s ease-out;
+    }
+    @keyframes fillBar {
+      0% { width:0%; }
+      100% { width:45%; }
+    }
+
+    /* FOOTER */
+    .footer-note {
+      margin-top:30px; font-size:13px; color:var(--text-muted);
+    }
+    .footer-note span { color:var(--gold); }
+
+    @media(max-width:600px) {
+      .congrats-card { padding:30px 20px; }
+      .congrats-card h1 { font-size:28px; }
+      .trophy { font-size:60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CONFETTI -->
+  <div class="confetti-container" id="confettiContainer"></div>
+
+  <!-- MAIN CARD -->
+  <div class="congrats-card">
+    <span class="trophy">🏆</span>
+    <h1>Congratulations!</h1>
+    <p class="subtitle">You've Completed the HTML Tutorial!</p>
+    <p class="message">
+      Amazing work! You've mastered <strong>40 HTML topics</strong> — from basic tags 
+      to semantic elements, responsive design, entities, symbols, and more. 
+      You're now ready to build real web pages! 🌐
+    </p>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="num">40</div>
+        <div class="label">Topics Completed</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">100+</div>
+        <div class="label">Code Examples</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">🏅</div>
+        <div class="label">HTML Master</div>
+      </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-section">
+      <div class="progress-label">📊 HTML Course Progress: 45% Complete</div>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="btn-row">
+      <a href="html-forms.html" class="btn btn-gold">
+        📝 Start Learning HTML Forms →
+      </a>
+    </div>
+    <div class="btn-row" style="margin-top:12px;">
+      <a href="web.html" class="btn btn-outline">📚 Back to Tutorial</a>
+      <a href="copy.html" class="btn btn-outline">🏠 Home</a>
+    </div>
+  </div>
+
+  <!-- FOOTER NOTE -->
+  <p class="footer-note">
+    Next up: <span>HTML Forms, Graphics, Media, APIs & More!</span> 🚀
+  </p>
+
+  <script>
+function goToLogin(tab){localStorage.setItem("returnPage",window.location.href);window.location.href="login.html?tab="+tab}
+    // CONFETTI GENERATOR
+    const container = document.getElementById('confettiContainer');
+    const colors = ['#f59e0b','#fbbf24','#8b5cf6','#10b981','#ef4444','#3b82f6','#ec4899','#06b6d4'];
+    
+    for (let i = 0; i < 80; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      confetti.style.animationDelay = Math.random() * 5 + 's';
+      confetti.style.width = (Math.random() * 10 + 6) + 'px';
+      confetti.style.height = (Math.random() * 10 + 6) + 'px';
+      container.appendChild(confetti);
+    }
+  </script>
+<script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sign In / Sign Up - Dion Learn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: radial-gradient(circle at top right,#312e81 0%,transparent 30%), radial-gradient(circle at bottom left,#581c87 0%,transparent 30%), #020617;
+            --bg-content: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.88));
+            --bg-code: #0f172a;
+            --text-main: #ffffff;
+            --text-muted: #cbd5e1;
+            --accent: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        }
+        body.light-mode {
+            --bg-body: radial-gradient(circle at top right, #e0e7ff 0%, transparent 30%), radial-gradient(circle at bottom left, #f3e8ff 0%, transparent 30%), #f8fafc;
+            --bg-content: linear-gradient(145deg, #ffffff, #f1f5f9);
+            --bg-code: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --accent: #7c3aed;
+            --accent-hover: #6d28d9;
+            --border: rgba(15, 23, 42, 0.08);
+            --shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body {
+            background: var(--bg-body); color: var(--text-main);
+            min-height:100vh; display:flex; align-items:center; justify-content:center;
+            transition: all 0.3s ease; padding:20px;
+        }
+        .theme-btn-fixed {
+            position:fixed; top:20px; right:20px; width:44px; height:44px;
+            border-radius:14px; border:1.5px solid var(--border);
+            background: var(--bg-content); color: var(--text-main);
+            cursor:pointer; font-size:18px; z-index:999;
+            display:flex; align-items:center; justify-content:center;
+        }
+        .back-link {
+            position:fixed; top:28px; left:24px; color:var(--text-muted);
+            text-decoration:none; font-size:14px; font-weight:500; z-index:999;
+        }
+        .back-link:hover { color:var(--accent); }
+
+        .auth-box {
+            width:100%; max-width:460px; padding:40px 34px;
+            background: var(--bg-content); border:1px solid var(--border);
+            border-radius:24px; box-shadow:var(--shadow);
+        }
+        .logo { text-align:center; margin-bottom:28px; }
+        .logo h1 { font-size:30px; font-weight:800; }
+        .logo h1 span { color:var(--accent); }
+        .logo p { color:var(--text-muted); font-size:13px; margin-top:4px; }
+
+        .msg-box {
+            padding:12px 16px; border-radius:10px; font-size:13px;
+            font-weight:500; margin-bottom:16px; text-align:center; display:none;
+        }
+        .msg-box.success { display:block; background:rgba(34,197,94,0.12); color:#22c55e; border:1px solid rgba(34,197,94,0.25); }
+        .msg-box.error { display:block; background:rgba(239,68,68,0.12); color:#ef4444; border:1px solid rgba(239,68,68,0.25); }
+
+        .tabs {
+            display:flex; gap:6px; background:var(--bg-code);
+            border-radius:14px; padding:5px; margin-bottom:28px; border:1px solid var(--border);
+        }
+        .tab {
+            flex:1; padding:12px 18px; border:none; background:transparent;
+            border-radius:11px; cursor:pointer; font-size:14px; font-weight:600;
+            color:var(--text-muted); transition:0.3s;
+        }
+        .tab.active { background:var(--accent); color:#fff; box-shadow:0 4px 15px rgba(139,92,246,0.35); }
+        .tab:hover:not(.active) { color:var(--text-main); }
+
+        .form-panel { display:none; }
+        .form-panel.active { display:block; }
+
+        .input {
+            width:100%; padding:13px 16px; border:1.5px solid var(--border);
+            border-radius:12px; font-size:14px; margin-bottom:14px; outline:none;
+            background:var(--bg-code); color:var(--text-main); box-sizing:border-box;
+        }
+        .input:focus { border-color:var(--accent); }
+        .input::placeholder { color:var(--text-muted); opacity:0.5; }
+
+        .pass-wrap { position:relative; margin-bottom:14px; }
+        .pass-wrap .input { margin-bottom:0; padding-right:55px; }
+        .toggle-pass {
+            position:absolute; right:12px; top:50%; transform:translateY(-50%);
+            border:none; background:none; cursor:pointer; font-size:13px;
+            font-weight:600; color:var(--accent);
+        }
+
+        .row { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+        .remember { font-size:13px; color:var(--text-muted); display:flex; align-items:center; gap:6px; cursor:pointer; }
+        .remember input { accent-color:var(--accent); }
+
+        .submit-btn {
+            width:100%; padding:14px; background:var(--accent); color:#fff;
+            border:none; border-radius:12px; font-size:15px; font-weight:600;
+            cursor:pointer; transition:0.3s;
+        }
+        .submit-btn:hover { background:var(--accent-hover); }
+        .submit-btn:disabled { opacity:0.6; cursor:not-allowed; }
+
+        .divider { text-align:center; margin:22px 0; position:relative; }
+        .divider::before,.divider::after {
+            content:''; position:absolute; top:50%; width:36%; height:1px; background:var(--border);
+        }
+        .divider::before { left:0; } .divider::after { right:0; }
+        .divider span { background:var(--bg-code); padding:0 14px; font-size:12px; color:var(--text-muted); position:relative; z-index:1; }
+
+        .social-row { display:flex; gap:10px; justify-content:center; }
+        .social-btn {
+            flex:1; padding:12px; border:1.5px solid var(--border); border-radius:12px;
+            background:var(--bg-code); cursor:pointer; font-size:14px; font-weight:600;
+            color:var(--text-main); text-align:center;
+        }
+
+        .switch-text { text-align:center; margin-top:16px; font-size:13px; color:var(--text-muted); }
+        .switch-text span { color:var(--accent); text-decoration:none; font-weight:600; cursor:pointer; }
+        .switch-text span:hover { text-decoration:underline; }
+
+        .strength-bar { height:5px; background:var(--border); border-radius:3px; margin-top:8px; margin-bottom:5px; overflow:hidden; }
+        .strength-fill { height:100%; width:0%; border-radius:3px; transition:0.4s; }
+        .strength-text { font-size:11px; color:var(--text-muted); margin-bottom:14px; }
+
+        .terms { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:var(--text-muted); margin:16px 0; }
+        .terms input { accent-color:var(--accent); margin-top:2px; width:16px; height:16px; flex-shrink:0; }
+
+        .success-screen { display:none; text-align:center; }
+        .success-screen.active { display:block; }
+        .success-screen .icon { font-size:60px; margin-bottom:16px; }
+        .success-screen h2 { font-size:24px; font-weight:700; margin-bottom:8px; }
+        .success-screen p { color:var(--text-muted); font-size:14px; margin-bottom:24px; }
+        .back-btn {
+            display:inline-block; padding:14px 30px; background:var(--accent);
+            color:#fff; border:none; border-radius:12px; font-size:15px;
+            font-weight:600; cursor:pointer;
+        }
+
+        .spinner {
+            display:inline-block; width:18px; height:18px; border:2.5px solid rgba(255,255,255,0.3);
+            border-top-color:#fff; border-radius:50%; animation:spin 0.7s linear infinite;
+            margin-right:8px; vertical-align:middle;
+        }
+        @keyframes spin { to{transform:rotate(360deg);} }
+
+        @media(max-width:600px) {
+            .auth-box { padding:28px 20px; }
+            .social-row { flex-direction:column; }
+        }
+    </style>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+    <a href="copy.html" class="back-link">← Back to Home</a>
+
+    <div class="auth-box">
+
+        <div class="logo">
+            <h1>Dion<span>Learn</span></h1>
+            <p>Master coding with free tutorials & projects</p>
+        </div>
+
+        <div class="msg-box" id="msgBox"></div>
+
+        <div id="formsContainer">
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" id="tabSignin" onclick="showSignin()">Sign In</button>
+                <button class="tab" id="tabSignup" onclick="showSignup()">Create Account</button>
+            </div>
+
+            <!-- SIGN IN PANEL -->
+            <div class="form-panel active" id="panelSignin">
+                <form id="signinForm">
+                    <input type="email" id="signinEmail" class="input" placeholder="Email address" required>
+                    <div class="pass-wrap">
+                        <input type="password" id="signinPassword" class="input" placeholder="Password" required>
+                        <button type="button" class="toggle-pass" onclick="togglePass('signinPassword', this)">Show</button>
+                    </div>
+                    <div class="row">
+                        <label class="remember"><input type="checkbox" id="rememberMe"> Remember me</label>
+                    </div>
+                    <button type="submit" class="submit-btn" id="signinBtn">Sign In</button>
+                </form>
+                <div class="divider"><span>or continue with</span></div>
+                <div class="social-row">
+                    <div id="googleSignInBtn"></div>
+                </div>
+                <p class="switch-text">Don't have an account? <span onclick="showSignup()">Create one</span></p>
+            </div>
+
+            <!-- CREATE ACCOUNT PANEL -->
+            <div class="form-panel" id="panelSignup">
+                <form id="signupForm">
+                    <input type="text" id="signupName" class="input" placeholder="Full name" required>
+                    <input type="email" id="signupEmail" class="input" placeholder="Email address" required>
+                    <div class="pass-wrap">
+                        <input type="password" id="signupPassword" class="input" placeholder="Create password (min 8 chars)" required>
+                        <button type="button" class="toggle-pass" onclick="togglePass('signupPassword', this)">Show</button>
+                    </div>
+                    <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                    <p class="strength-text" id="strengthText">Password strength: Too weak</p>
+                    <label class="terms">
+                        <input type="checkbox" id="agreeTerms" required>
+                        I agree to the Terms of Service and Privacy Policy
+                    </label>
+                    <button type="submit" class="submit-btn" id="signupBtn">Create Account</button>
+                </form>
+                <div class="divider"><span>or sign up with</span></div>
+                <div class="social-row">
+                    <div id="googleSignUpBtn"></div>
+                </div>
+                <p class="switch-text">Already have an account? <span onclick="showSignin()">Sign In</span></p>
+            </div>
+
+        </div>
+
+        <!-- SUCCESS SCREEN -->
+        <div class="success-screen" id="successScreen">
+            <div class="icon">✅</div>
+            <h2 id="successTitle">Success!</h2>
+            <p id="successMsg">You are now signed in.</p>
+            <button class="back-btn" onclick="goBack()">← Back to What You Were Doing</button>
+        </div>
+
+    </div>
+
+    <script>
+        // ========== GOOGLE CLIENT ID ==========
+        const GOOGLE_CLIENT_ID = '1076673833195-bsm167ks96pfjtas6gfl9h0hfek4j44v.apps.googleusercontent.com';
+
+        // ========== THEME ==========
+        var themeToggle = document.getElementById('themeToggle');
+        if (localStorage.getItem('dionTheme') === 'light') { 
+            document.body.classList.add('light-mode'); 
+            themeToggle.textContent = '☀️'; 
+        }
+        themeToggle.onclick = function() {
+            document.body.classList.toggle('light-mode');
+            themeToggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+            localStorage.setItem('dionTheme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        };
+
+        // ========== GOOGLE LOGIN ==========
+        function handleGoogleResponse(response) {
+            var payload = JSON.parse(atob(response.credential.split('.')[1]));
+            var user = {
+                id: payload.sub,
+                name: payload.name,
+                email: payload.email,
+                picture: payload.picture
+            };
+
+            console.log('✅ Google Sign-In:', user);
+
+            // Save account
+            var accounts = getAllAccounts();
+            if (!findAccount(user.email)) {
+                accounts.push({
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    password: 'google_' + user.id,
+                    created_at: new Date().toISOString()
+                });
+                saveAllAccounts(accounts);
+            }
+
+            // Track login
+            trackLogin(user);
+
+            // Save session
+            localStorage.setItem('dionUser', JSON.stringify(user));
+
+            // Show success
+            document.getElementById('formsContainer').style.display = 'none';
+            document.getElementById('successScreen').classList.add('active');
+            document.getElementById('successTitle').textContent = 'Welcome, ' + user.name + '! 🎉';
+            document.getElementById('successMsg').textContent = 'Signed in with Google: ' + user.email;
+        }
+
+        // ========== TAB SWITCHING ==========
+        function showSignin() {
+            document.getElementById('tabSignin').classList.add('active');
+            document.getElementById('tabSignup').classList.remove('active');
+            document.getElementById('panelSignin').classList.add('active');
+            document.getElementById('panelSignup').classList.remove('active');
+            hideMsg();
+        }
+
+        function showSignup() {
+            document.getElementById('tabSignup').classList.add('active');
+            document.getElementById('tabSignin').classList.remove('active');
+            document.getElementById('panelSignup').classList.add('active');
+            document.getElementById('panelSignin').classList.remove('active');
+            hideMsg();
+        }
+
+        if (window.location.search.includes('tab=signup')) {
+            showSignup();
+        }
+
+        // ========== TOGGLE PASSWORD ==========
+        function togglePass(inputId, btn) {
+            var input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = 'Hide';
+            } else {
+                input.type = 'password';
+                btn.textContent = 'Show';
+            }
+        }
+
+        // ========== MESSAGES ==========
+        var msgTimer;
+        function showMsg(text, type) {
+            var box = document.getElementById('msgBox');
+            clearTimeout(msgTimer);
+            box.textContent = text;
+            box.className = 'msg-box ' + type;
+            msgTimer = setTimeout(hideMsg, 4000);
+        }
+        function hideMsg() {
+            document.getElementById('msgBox').className = 'msg-box';
+            document.getElementById('msgBox').textContent = '';
+        }
+
+        // ========== PASSWORD STRENGTH ==========
+        document.getElementById('signupPassword').addEventListener('input', function() {
+            var p = this.value;
+            var s = 0;
+            if (p.length >= 8) s++;
+            if (/[0-9]/.test(p)) s++;
+            if (/[!@#$%^&*]/.test(p)) s++;
+            if (/[a-z]/.test(p) && /[A-Z]/.test(p)) s++;
+            var widths = ['0%','25%','50%','75%','100%'];
+            var colors = ['#ef4444','#f59e0b','#facc15','#10b981','#22c55e'];
+            var labels = ['Too weak','Weak','Fair','Good','Strong 💪'];
+            document.getElementById('strengthFill').style.width = widths[s];
+            document.getElementById('strengthFill').style.background = colors[s];
+            document.getElementById('strengthText').textContent = 'Password strength: ' + labels[s];
+        });
+
+        // ========== LOCAL STORAGE ==========
+        function getAllAccounts() {
+            var data = localStorage.getItem('dionAllAccounts');
+            return data ? JSON.parse(data) : [];
+        }
+        function saveAllAccounts(accounts) {
+            localStorage.setItem('dionAllAccounts', JSON.stringify(accounts));
+        }
+        function findAccount(email) {
+            var accounts = getAllAccounts();
+            for (var i = 0; i < accounts.length; i++) {
+                if (accounts[i].email === email) return accounts[i];
+            }
+            return null;
+        }
+
+        // ========== LOGIN TRACKING ==========
+        function trackLogin(user) {
+            var history = localStorage.getItem('dionLoginHistory');
+            history = history ? JSON.parse(history) : [];
+            history.push({
+                name: user.name,
+                email: user.email,
+                time: new Date().toISOString()
+            });
+            localStorage.setItem('dionLoginHistory', JSON.stringify(history));
+        }
+
+        // ========== SHOW SUCCESS ==========
+        function showSuccess(user) {
+            document.getElementById('formsContainer').style.display = 'none';
+            document.getElementById('successScreen').classList.add('active');
+            document.getElementById('successTitle').textContent = 'Welcome, ' + user.name + '! 🎉';
+        }
+
+        function goBack() {
+            var returnPage = localStorage.getItem('returnPage');
+            localStorage.removeItem('returnPage');
+            window.location.href = returnPage || 'home.html';
+        }
+
+        // ========== CREATE ACCOUNT ==========
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            hideMsg();
+
+            var name = document.getElementById('signupName').value.trim();
+            var email = document.getElementById('signupEmail').value.trim();
+            var password = document.getElementById('signupPassword').value;
+            var agreed = document.getElementById('agreeTerms').checked;
+            var btn = document.getElementById('signupBtn');
+
+            if (!name || !email || !password) { showMsg('Please fill in all fields.', 'error'); return; }
+            if (password.length < 8) { showMsg('Password must be at least 8 characters.', 'error'); return; }
+            if (!agreed) { showMsg('Please agree to the Terms.', 'error'); return; }
+            if (findAccount(email)) { showMsg('Email already registered. Sign in instead.', 'error'); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Creating...';
+
+            var accounts = getAllAccounts();
+            var newAccount = { 
+                id: 'u' + Date.now(), 
+                name: name, 
+                email: email, 
+                password: password,
+                created_at: new Date().toISOString()
+            };
+            accounts.push(newAccount);
+            saveAllAccounts(accounts);
+
+            var user = { id: newAccount.id, name: name, email: email };
+            localStorage.setItem('dionUser', JSON.stringify(user));
+            trackLogin(user);
+
+            console.log('✅ Account created:', newAccount);
+
+            setTimeout(function() {
+                btn.disabled = false;
+                btn.innerHTML = 'Create Account';
+                showSuccess(user);
+            }, 500);
+        });
+
+        // ========== SIGN IN ==========
+        document.getElementById('signinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            hideMsg();
+
+            var email = document.getElementById('signinEmail').value.trim();
+            var password = document.getElementById('signinPassword').value;
+            var remember = document.getElementById('rememberMe').checked;
+            var btn = document.getElementById('signinBtn');
+
+            if (!email || !password) { showMsg('Please fill in all fields.', 'error'); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Signing in...';
+
+            setTimeout(function() {
+                var account = findAccount(email);
+
+                if (!account) {
+                    showMsg('No account found. Please create one first.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = 'Sign In';
+                    return;
+                }
+
+                if (account.password && account.password.startsWith('google_')) {
+                    showMsg('This account uses Google Sign-In. Click the Google button.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = 'Sign In';
+                    return;
+                }
+
+                if (account.password !== password) {
+                    showMsg('Incorrect password.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = 'Sign In';
+                    return;
+                }
+
+                var user = { id: account.id, name: account.name, email: account.email };
+                if (remember) {
+                    localStorage.setItem('dionUser', JSON.stringify(user));
+                } else {
+                    sessionStorage.setItem('dionUser', JSON.stringify(user));
+                }
+
+                trackLogin(user);
+                console.log('✅ Signed in:', user);
+
+                btn.disabled = false;
+                btn.innerHTML = 'Sign In';
+                showSuccess(user);
+            }, 500);
+        });
+
+        // ========== SINGLE WINDOW.ONLOAD - RENDER GOOGLE BUTTONS ==========
+        window.onload = function() {
+            if (GOOGLE_CLIENT_ID && GOOGLE_CLIENT_ID !== 'YOUR_GOOGLE_CLIENT_ID') {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleGoogleResponse
+                });
+
+                // Sign In Google button
+                var signInDiv = document.getElementById('googleSignInBtn');
+                if (signInDiv) {
+                    google.accounts.id.renderButton(signInDiv, { 
+                        theme: 'outline', size: 'large', text: 'signin_with', width: 250 
+                    });
+                }
+
+                // Sign Up Google button
+                var signUpDiv = document.getElementById('googleSignUpBtn');
+                if (signUpDiv) {
+                    google.accounts.id.renderButton(signUpDiv, { 
+                        theme: 'outline', size: 'large', text: 'signup_with', width: 250 
+                    });
+                }
+            }
+        };
+    </script>
+<script src="auth.js"></script>
+</body>
+</html>

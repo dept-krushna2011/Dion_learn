@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HTML URL Encode Reference - Dion Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: radial-gradient(circle at top right,#312e81 0%,transparent 30%), radial-gradient(circle at bottom left,#581c87 0%,transparent 30%), #020617;
+      --bg-nav: rgba(2, 6, 23, 0.75); --bg-sidebar: rgba(15, 23, 42, 0.95);
+      --bg-content: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.88));
+      --bg-code: #0f172a; --bg-footer: #010313;
+      --text-main: #ffffff; --text-muted: #cbd5e1;
+      --accent: #8b5cf6; --accent-hover: #7c3aed; --accent-light: rgba(139, 92, 246, 0.12);
+      --border: rgba(255, 255, 255, 0.08); --shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      --green: #10b981; --sidebar-width: 300px;
+    }
+    body.light-mode {
+      --bg-body: radial-gradient(circle at top right, #e0e7ff 0%, transparent 30%), radial-gradient(circle at bottom left, #f3e8ff 0%, transparent 30%), #f8fafc;
+      --bg-nav: rgba(248, 250, 252, 0.85); --bg-sidebar: #ffffff;
+      --bg-content: linear-gradient(145deg, #ffffff, #f1f5f9); --bg-code: #1e293b; --bg-footer: #e2e8f0;
+      --text-main: #0f172a; --text-muted: #475569; --accent: #7c3aed; --accent-hover: #6d28d9;
+      --accent-light: rgba(124, 58, 237, 0.08); --border: rgba(15, 23, 42, 0.08); --shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body { background: var(--bg-body); color: var(--text-main); transition: all 0.3s ease; padding-top: 80px; }
+    nav { width:100%; padding:16px 50px; display:flex; justify-content:space-between; align-items:center; position:fixed; top:0; z-index:1000; background: var(--bg-nav); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); box-shadow: var(--shadow); }
+    .logo { font-size:28px; font-weight:800; color:var(--text-main); text-decoration:none; } .logo span { color:var(--accent); }
+    .nav-links { display:flex; gap:30px; align-items:center; } .nav-links a { text-decoration:none; color:var(--text-muted); font-size:14px; } .nav-links a:hover { color:var(--text-main); }
+    .nav-buttons { display:flex; gap:12px; align-items:center; } .login-btn, .signup-btn { padding:9px 20px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; } .login-btn { background:transparent; border:1px solid var(--border); color:var(--text-main); } .signup-btn { background:var(--accent); color:white; border:none; } .signup-btn:hover { background:var(--accent-hover); }
+    .theme-btn { width:42px; height:42px; border:none; border-radius:12px; background:rgba(255,255,255,0.08); color:var(--text-main); cursor:pointer; font-size:16px; }
+    .layout { display:flex; max-width:1500px; margin:0 auto; min-height:calc(100vh - 180px); }
+    .sidebar { width:var(--sidebar-width); min-width:var(--sidebar-width); background:var(--bg-sidebar); border-right:1px solid var(--border); overflow-y:auto; height:calc(100vh - 80px); position:sticky; top:80px; padding:8px 0 20px; }
+    .sidebar-search { padding:14px 16px; position:sticky; top:0; background:var(--bg-sidebar); z-index:10; } .sidebar-search input { width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--border); background:var(--bg-code); color:var(--text-main); font-size:13px; }
+    .sidebar-category { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); padding:14px 18px 6px; }
+    .sidebar a { display:block; padding:7px 18px; text-decoration:none; color:var(--text-muted); font-size:13px; border-left:3px solid transparent; } .sidebar a:hover, .sidebar a.active { color:var(--accent); background:var(--accent-light); border-left-color:var(--accent); }
+    .content { flex:1; padding:30px 40px; overflow-y:auto; }
+    .breadcrumb { font-size:13px; color:var(--text-muted); margin-bottom:20px; } .breadcrumb a { color:var(--accent); text-decoration:none; }
+    .section { background:var(--bg-content); border:1px solid var(--border); border-radius:20px; padding:35px; margin-bottom:25px; box-shadow:var(--shadow); }
+    .section h1 { font-size:36px; font-weight:800; margin-bottom:10px; } .section h1 span { color:var(--accent); }
+    .section h2 { font-size:24px; font-weight:700; margin:28px 0 12px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+    .section p { color:var(--text-muted); font-size:15px; line-height:1.8; margin-bottom:14px; }
+    .section code { background:var(--bg-code); padding:2px 8px; border-radius:4px; font-family:'Courier New',monospace; font-size:13px; color:var(--accent); }
+    .table-wrapper { overflow-x:auto; margin:16px 0; }
+    table { width:100%; border-collapse:collapse; font-size:13px; } table th { background:var(--accent-light); color:var(--accent); padding:10px 14px; text-align:left; font-weight:600; border-bottom:2px solid var(--border); } table td { padding:9px 14px; color:var(--text-muted); border-bottom:1px solid var(--border); }
+    table tr:hover td { background:rgba(139,92,246,0.05); }
+    .code-block { background:var(--bg-code); border:1px solid var(--border); border-radius:12px; padding:18px 22px; margin:14px 0; overflow-x:auto; }
+    .code-block pre { margin:0; font-family:'Fira Code',monospace; font-size:14px; line-height:1.8; color:#e2e8f0; }
+    .code-block .tag { color:#f472b6; } .code-block .attr { color:#67e8f9; } .code-block .value { color:#a5b4fc; } .code-block .comment { color:#64748b; }
+    .note-box { background:rgba(139,92,246,0.1); border-left:4px solid var(--accent); padding:16px 20px; border-radius:0 12px 12px 0; margin:16px 0; } .note-box p { margin:0; font-size:14px; color:var(--text-main); }
+    .tip-box { background:rgba(16,185,129,0.1); border-left:4px solid var(--green); padding:16px 20px; border-radius:0 12px 12px 0; margin:16px 0; } .tip-box p { margin:0; font-size:14px; color:var(--text-main); }
+    .nav-btns { display:flex; justify-content:space-between; margin-top:30px; gap:15px; flex-wrap:wrap; }
+    .nav-btns a { padding:14px 28px; border-radius:12px; font-size:14px; font-weight:600; text-decoration:none; text-align:center; }
+    .nav-btns .prev { background:transparent; border:1px solid var(--border); color:var(--text-main); } .nav-btns .prev:hover { border-color:var(--accent); background:var(--accent-light); }
+    .nav-btns .next { background:var(--accent); color:white; } .nav-btns .next:hover { background:var(--accent-hover); }
+    footer { text-align:center; padding:30px; border-top:1px solid var(--border); color:var(--text-muted); background:var(--bg-footer); font-size:14px; margin-top:40px; }
+    @media(max-width:900px) { .sidebar { display:none; } .content { padding:20px; } nav { padding:14px 20px; } .nav-links { display:none; } .section { padding:20px; } .section h1 { font-size:26px; } .section h2 { font-size:20px; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="html-tutorial.html" class="logo">Dion<span>Learn</span></a>
+  <div class="nav-links"><a href="copy.html">Home</a><a href="cource.html">Courses</a><a href="not.html">Notes</a>
+    <a href="contact.html">Contact</a>
+</div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-search"><input type="text" id="searchTopics" placeholder="🔍 Search topics..." oninput="filterTopics()"></div>
+    <div class="sidebar-category">📚 HTML References</div>
+    <a href="html-tag-list.html">HTML Tag List</a><a href="html-attributes-ref.html">HTML Attributes</a><a href="html-global-attributes.html">HTML Global Attributes</a><a href="html-browser-support.html">HTML Browser Support</a><a href="html-events.html">HTML Events</a><a href="html-colors-ref.html">HTML Colors</a><a href="html-canvas-ref.html">HTML Canvas</a><a href="html-audio-video-ref.html">HTML Audio/Video</a><a href="html-doctypes.html">HTML Doctypes</a><a href="html-character-sets.html">HTML Character Sets</a><a href="html-url-encode-ref.html" class="active">HTML URL Encode</a><a href="html-lang-codes.html">HTML Lang Codes</a><a href="http-messages.html">HTTP Messages</a><a href="http-methods.html">HTTP Methods</a><a href="px-to-em-converter.html">PX to EM Converter</a><a href="keyboard-shortcuts.html">Keyboard Shortcuts</a>
+  </aside>
+
+  <main class="content">
+    <div class="breadcrumb"><a href="html-tutorial.html">HTML Tutorial</a> → HTML URL Encode Reference</div>
+
+    <div class="section">
+      <h1>🔗 HTML <span>URL Encode</span> Reference</h1>
+      <p>URLs can only contain <strong>ASCII characters</strong>. URL encoding converts unsafe characters into a <strong>% followed by two hexadecimal digits</strong>. This reference shows the most common encoded characters.</p>
+    </div>
+
+    <div class="section">
+      <h2>📋 Common URL Encoded Characters</h2>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>Character</th><th>Encoded</th><th>Character</th><th>Encoded</th></tr>
+          <tr><td>Space</td><td><code>%20</code></td><td>!</td><td><code>%21</code></td></tr>
+          <tr><td>"</td><td><code>%22</code></td><td>#</td><td><code>%23</code></td></tr>
+          <tr><td>$</td><td><code>%24</code></td><td>%</td><td><code>%25</code></td></tr>
+          <tr><td>&amp;</td><td><code>%26</code></td><td>'</td><td><code>%27</code></td></tr>
+          <tr><td>(</td><td><code>%28</code></td><td>)</td><td><code>%29</code></td></tr>
+          <tr><td>*</td><td><code>%2A</code></td><td>+</td><td><code>%2B</code></td></tr>
+          <tr><td>,</td><td><code>%2C</code></td><td>/</td><td><code>%2F</code></td></tr>
+          <tr><td>:</td><td><code>%3A</code></td><td>;</td><td><code>%3B</code></td></tr>
+          <tr><td>&lt;</td><td><code>%3C</code></td><td>=</td><td><code>%3D</code></td></tr>
+          <tr><td>&gt;</td><td><code>%3E</code></td><td>?</td><td><code>%3F</code></td></tr>
+          <tr><td>@</td><td><code>%40</code></td><td>[</td><td><code>%5B</code></td></tr>
+          <tr><td>\</td><td><code>%5C</code></td><td>]</td><td><code>%5D</code></td></tr>
+          <tr><td>^</td><td><code>%5E</code></td><td>`</td><td><code>%60</code></td></tr>
+          <tr><td>{</td><td><code>%7B</code></td><td>|</td><td><code>%7C</code></td></tr>
+          <tr><td>}</td><td><code>%7D</code></td><td>~</td><td><code>%7E</code></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📝 URL Encoding Examples</h2>
+      <div class="code-block"><pre><span class="comment">Original: https://example.com/search?q=hello world!</span>
+<span class="comment">Encoded:  https://example.com/search?q=hello%20world%21</span>
+
+<span class="comment">Original: https://site.com/ünîcødé/page</span>
+<span class="comment">Encoded:  https://site.com/%C3%BCn%C3%AEc%C3%B8d%C3%A9/page</span>
+
+<span class="comment">Original: https://example.com/?name=John&age=25</span>
+<span class="comment">Encoded:  https://example.com/?name=John%26age%3D25</span></pre></div>
+    </div>
+
+    <div class="section">
+      <h2>⚙️ JavaScript URL Encoding</h2>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>Method</th><th>What It Encodes</th><th>Example</th></tr>
+          <tr><td><code>encodeURIComponent()</code></td><td>Encodes special characters for URL parameters</td><td><code>encodeURIComponent('hello world!') → 'hello%20world%21'</code></td></tr>
+          <tr><td><code>encodeURI()</code></td><td>Encodes a full URL (keeps structure intact)</td><td><code>encodeURI('https://example.com/hello world') → 'https://example.com/hello%20world'</code></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📋 URL Encode Quick Reference</h2>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>Rule</th><th>Details</th></tr>
+          <tr><td>✅ URLs use ASCII only</td><td>Non-ASCII characters must be encoded</td></tr>
+          <tr><td>✅ Space becomes <code>%20</code></td><td>Or <code>+</code> in form data</td></tr>
+          <tr><td>✅ Use <code>encodeURIComponent()</code></td><td>For encoding query parameters in JavaScript</td></tr>
+          <tr><td>✅ Safe characters: A-Z, a-z, 0-9, -, _, ., ~</td><td>These don't need encoding</td></tr>
+        </table>
+      </div>
+      <div class="tip-box"><p><strong>💡 Pro Tip:</strong> When building URLs dynamically in JavaScript, always use <code>encodeURIComponent()</code> on user input before adding it to a URL. This prevents errors with spaces and special characters!</p></div>
+    </div>
+
+    <div class="nav-btns">
+      <a href="html-character-sets.html" class="prev">← Previous: HTML Character Sets</a>
+      <a href="html-lang-codes.html" class="next">Next: HTML Lang Codes →</a>
+    </div>
+  </main>
+</div>
+
+<footer>&copy; 2026 Dion Learn • Learn • Build • Create 🚀</footer>
+
+<script>
+  const themeToggle = document.getElementById("themeToggle"); const savedTheme = localStorage.getItem("theme"); if (savedTheme === "light") { document.body.classList.add("light-mode"); themeToggle.innerHTML = "☀️"; } themeToggle.addEventListener("click", () => { document.body.classList.toggle("light-mode"); themeToggle.innerHTML = document.body.classList.contains("light-mode") ? "☀️" : "🌙"; localStorage.setItem("theme", document.body.classList.contains("light-mode") ? "light" : "dark"); });
+  function goToLogin(tab){localStorage.setItem("returnPage",window.location.href);window.location.href="login.html?tab="+tab}
+  function filterTopics() { const query = document.getElementById('searchTopics').value.toLowerCase(); document.querySelectorAll('.sidebar a').forEach(link => { link.style.display = link.textContent.toLowerCase().includes(query) ? 'block' : 'none'; }); }
+</script>
+<script src="auth.js"></script>
+</body>
+</html>

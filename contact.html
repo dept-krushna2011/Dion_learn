@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - Dion Learn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: radial-gradient(circle at top right,#312e81 0%,transparent 30%), radial-gradient(circle at bottom left,#581c87 0%,transparent 30%), #020617;
+      --bg-nav: rgba(2, 6, 23, 0.75);
+      --bg-content: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.88));
+      --bg-code: #0f172a;
+      --bg-footer: #010313;
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+      --accent: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --accent-light: rgba(139, 92, 246, 0.12);
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      --green: #10b981;
+      --red: #ef4444;
+    }
+    body.light-mode {
+      --bg-body: radial-gradient(circle at top right, #e0e7ff 0%, transparent 30%), radial-gradient(circle at bottom left, #f3e8ff 0%, transparent 30%), #f8fafc;
+      --bg-nav: rgba(248, 250, 252, 0.85);
+      --bg-content: linear-gradient(145deg, #ffffff, #f1f5f9);
+      --bg-code: #f1f5f9;
+      --bg-footer: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --accent-light: rgba(124, 58, 237, 0.08);
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-body); color: var(--text-main);
+      transition: all 0.3s ease; padding-top: 80px;
+    }
+
+    .bg-orb {
+      position:fixed; border-radius:50%; filter:blur(100px); opacity:0.1;
+      z-index:0; pointer-events:none;
+    }
+    .bg-orb.orb1 { width:500px; height:500px; background:#8b5cf6; top:-150px; right:-150px; animation:float 8s ease-in-out infinite; }
+    .bg-orb.orb2 { width:400px; height:400px; background:#7c3aed; bottom:-100px; left:-100px; animation:float 10s ease-in-out infinite reverse; }
+    @keyframes float {
+      0%,100%{transform:translate(0,0) scale(1)}
+      25%{transform:translate(30px,-30px) scale(1.05)}
+      50%{transform:translate(-20px,20px) scale(0.95)}
+      75%{transform:translate(-30px,-10px) scale(1.02)}
+    }
+
+    /* NAVBAR */
+    nav {
+      width:100%; padding:16px 50px; display:flex; justify-content:space-between;
+      align-items:center; position:fixed; top:0; z-index:1000;
+      background: var(--bg-nav); backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px); border-bottom:1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .logo { font-size:28px; font-weight:800; color:var(--text-main); text-decoration:none; letter-spacing:-0.5px; }
+    .logo span { color:var(--accent); }
+    .nav-links { display:flex; gap:30px; align-items:center; }
+    .nav-links a { text-decoration:none; color:var(--text-muted); font-size:14px; font-weight:500; transition:0.3s; position:relative; }
+    .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--accent); transition:0.3s; border-radius:2px; }
+    .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+    .nav-links a:hover, .nav-links a.active { color:var(--text-main); }
+    .nav-buttons { display:flex; gap:12px; align-items:center; }
+    .login-btn { padding:9px 20px; border:1px solid var(--border); border-radius:10px; background:transparent; color:var(--text-main); cursor:pointer; font-size:13px; font-weight:600; transition:0.3s; font-family:'Poppins',sans-serif; }
+    .login-btn:hover { border-color:var(--accent); }
+    .signup-btn { padding:9px 20px; border:none; border-radius:10px; background:var(--accent); color:white; font-size:13px; font-weight:600; cursor:pointer; transition:0.3s; font-family:'Poppins',sans-serif; }
+    .signup-btn:hover { background:var(--accent-hover); transform:translateY(-1px); }
+    .theme-btn { width:42px; height:42px; border:none; border-radius:12px; background:rgba(255,255,255,0.08); color:var(--text-main); cursor:pointer; font-size:18px; transition:0.3s; }
+    .theme-btn:hover { background:rgba(255,255,255,0.15); }
+
+    /* CONTAINER */
+    .container { max-width:650px; margin:0 auto; padding:40px 30px 60px; position:relative; z-index:1; }
+
+    .page-header { text-align:center; margin-bottom:45px; }
+    .page-header .badge { display:inline-block; padding:6px 16px; background:var(--accent-light); color:var(--accent); border-radius:20px; font-size:12px; font-weight:600; margin-bottom:16px; letter-spacing:1px; text-transform:uppercase; }
+    .page-header h1 { font-size:44px; font-weight:800; margin-bottom:10px; }
+    .page-header h1 span { color:var(--accent); }
+    .page-header p { color:var(--text-muted); font-size:16px; line-height:1.7; }
+
+    .form-card {
+      background:var(--bg-content); border:1px solid var(--border);
+      border-radius:20px; padding:40px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+    }
+    .form-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background:linear-gradient(90deg, var(--accent), #a78bfa, var(--accent));
+    }
+    .form-card h2 { font-size:24px; font-weight:700; margin-bottom:6px; }
+    .form-card .subtitle { color:var(--text-muted); font-size:14px; margin-bottom:28px; }
+
+    .field { margin-bottom:20px; }
+    .field label { display:block; font-size:13px; font-weight:600; color:var(--text-muted); margin-bottom:7px; }
+    .field input, .field textarea, .field select {
+      width:100%; padding:14px 16px; border-radius:12px; font-size:14px;
+      border:1.5px solid var(--border); background:var(--bg-code); color:var(--text-main);
+      outline:none; transition:all 0.3s ease; font-family:'Poppins',sans-serif;
+    }
+    .field input::placeholder, .field textarea::placeholder { color:var(--text-muted); opacity:0.5; }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color:var(--accent); box-shadow:0 0 0 4px var(--accent-light);
+    }
+    .field textarea { resize:vertical; min-height:130px; }
+    .field select { cursor:pointer; }
+    .field select option { background:var(--bg-code); color:var(--text-main); }
+
+    .char-count { text-align:right; font-size:11px; color:var(--text-muted); margin-top:4px; }
+
+    .btn-submit {
+      width:100%; padding:15px; background:linear-gradient(135deg, var(--accent), var(--accent-hover));
+      color:white; border:none; border-radius:14px; font-size:16px; font-weight:700;
+      cursor:pointer; transition:all 0.3s ease; letter-spacing:0.3px;
+    }
+    .btn-submit:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(139,92,246,0.4); }
+    .btn-submit:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+
+    .msg {
+      padding:14px 18px; border-radius:12px; font-size:13px; font-weight:500;
+      text-align:center; margin-bottom:20px; display:none; animation:slideDown 0.3s ease;
+    }
+    @keyframes slideDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+    .msg.success { display:block; background:rgba(16,185,129,0.15); color:var(--green); border:1px solid rgba(16,185,129,0.3); }
+    .msg.error { display:block; background:rgba(239,68,68,0.15); color:var(--red); border:1px solid rgba(239,68,68,0.3); }
+
+    .spinner {
+      display:inline-block; width:18px; height:18px; border:2.5px solid rgba(255,255,255,0.3);
+      border-top-color:white; border-radius:50%; animation:spin 0.7s linear infinite;
+      margin-right:8px; vertical-align:middle;
+    }
+    @keyframes spin { to{transform:rotate(360deg);} }
+
+    .contact-info-row {
+      display:flex; justify-content:center; gap:40px; margin-top:25px;
+      flex-wrap:wrap; text-align:center;
+    }
+    .contact-info-item {
+      display:flex; align-items:center; gap:8px; color:var(--text-muted);
+      font-size:14px; text-decoration:none; transition:0.3s;
+    }
+    .contact-info-item:hover { color:var(--accent); }
+    .contact-info-item svg { width:20px; height:20px; }
+
+    /* SOCIAL */
+    .social-section { text-align:center; margin-top:50px; }
+    .social-section h3 { font-size:20px; font-weight:700; margin-bottom:24px; color:var(--text-muted); }
+    .social-links { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+    .social-link {
+      width:52px; height:52px; border-radius:14px; background:var(--bg-content);
+      border:1.5px solid var(--border); display:flex; align-items:center;
+      justify-content:center; text-decoration:none; transition:all 0.3s ease;
+      position:relative;
+    }
+    .social-link svg { width:24px; height:24px; transition:all 0.3s ease; }
+    .social-link:hover { transform:translateY(-5px); box-shadow:0 12px 25px rgba(139,92,246,0.25); }
+    .social-link:hover svg { transform:scale(1.15); }
+
+    .social-link.yt:hover { border-color:#FF0000; }
+    .social-link.tw:hover { border-color:#1DA1F2; }
+    .social-link.ig:hover { border-color:#E4405F; }
+    .social-link.fb:hover { border-color:#1877F2; }
+    .social-link.gh:hover { border-color:#ffffff; }
+    .social-link.li:hover { border-color:#0A66C2; }
+    .social-link.dc:hover { border-color:#5865F2; }
+
+    .tooltip {
+      position:absolute; bottom:-28px; font-size:10px; color:var(--text-muted);
+      opacity:0; transition:0.3s; white-space:nowrap; pointer-events:none;
+    }
+    .social-link:hover .tooltip { opacity:1; bottom:-24px; }
+
+    footer { text-align:center; padding:30px; border-top:1px solid var(--border); color:var(--text-muted); background:var(--bg-footer); font-size:14px; margin-top:50px; }
+
+    @media(max-width:768px) {
+      nav { padding:16px 20px; }
+      .nav-links { display:none; }
+      .page-header h1 { font-size:34px; }
+      .container { padding:20px 15px 40px; }
+      .form-card { padding:28px 20px; }
+      .contact-info-row { gap:20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+
+<nav>
+  <a href="copy.html" class="logo">Dion<span>Learn</span></a>
+  <div class="nav-links">
+    <a href="copy.html">Home</a>
+    <a href="cource.html">Courses</a>
+    <a href="not.html">Notes</a>
+    <a href="contact.html" class="active">Contact</a>
+  </div>
+</div>
+  <div class="nav-buttons">
+    <button class="login-btn" onclick="goToLogin('signin')">Login</button>
+    <button class="signup-btn" onclick="goToLogin('signup')">Signup</button>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="page-header">
+    <div class="badge">📬 Get in Touch</div>
+    <h1>We'd Love to <span>Hear</span> From You 💬</h1>
+    <p>Have questions or suggestions? Fill the form and we'll get back to you within 24 hours.</p>
+  </div>
+
+  <div class="form-card">
+    <h2>Send a Message ✉️</h2>
+    <p class="subtitle">We reply fast — usually within a few hours!</p>
+
+    <div class="msg" id="formMsg"></div>
+
+    <form id="contactForm">
+      <div class="field">
+        <label>Full Name *</label>
+        <input type="text" id="contactName" placeholder="e.g. Priya Sharma" required>
+      </div>
+      <div class="field">
+        <label>Email Address *</label>
+        <input type="email" id="contactEmail" placeholder="e.g. priya@example.com" required>
+      </div>
+      <div class="field">
+        <label>Phone (Optional)</label>
+        <input type="tel" id="contactPhone" placeholder="+91 98765 43210">
+      </div>
+      <div class="field">
+        <label>Subject *</label>
+        <select id="contactSubject" required>
+          <option value="">-- Select a topic --</option>
+          <option value="general">💡 General Inquiry</option>
+          <option value="course">📚 Course Related</option>
+          <option value="notes">📝 Notes & Cheatsheets</option>
+          <option value="bug">🐛 Report a Bug</option>
+          <option value="suggestion">💭 Suggestion</option>
+          <option value="other">📌 Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Your Message *</label>
+        <textarea id="contactMessage" placeholder="Tell us how we can help you..." required maxlength="1000" oninput="updateCharCount()"></textarea>
+        <div class="char-count"><span id="charCount">0</span>/1000 characters</div>
+      </div>
+      <button type="submit" class="btn-submit" id="submitBtn">📨 Send Message</button>
+    </form>
+
+    <div class="contact-info-row">
+      <a href="mailto:dionlearn.contact@gmail.com" class="contact-info-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        dionlearn.contact@gmail.com
+      </a>
+      <span class="contact-info-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +91 7744066457
+      </span>
+    </div>
+  </div>
+
+  <!-- SOCIAL MEDIA -->
+  <div class="social-section">
+    <h3>Follow Us</h3>
+    <div class="social-links">
+      <a href="https://youtube.com/@Dion-learn" target="_blank" class="social-link yt" title="YouTube">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span class="tooltip">YouTube</span>
+      </a>
+      <a href="https://twitter.com/dion_learn" target="_blank" class="social-link tw" title="Twitter">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span class="tooltip">Twitter</span>
+      </a>
+      <a href="https://www.instagram.com/dion_learn2026/" target="_blank" class="social-link ig" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        <span class="tooltip">Instagram</span>
+      </a>
+      <a href="https://facebook.com/dionlearn" target="_blank" class="social-link fb" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        <span class="tooltip">Facebook</span>
+      </a>
+      
+    
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2026 Dion Learn • Learn • Build • Create 🚀
+</footer>
+
+<script>
+  // ========== GOOGLE SHEETS URL ==========
+  // 👇 PASTE YOUR GOOGLE SCRIPT URL HERE 👇
+ var GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbxBzujqbOIZ4BhIyYGGCDb0Q7WnzaGYCrq6MUtWdICkzfCxgG2CUMjbKZojWna_ZsYx6g/exec';
+  // 👆 PASTE YOUR GOOGLE SCRIPT URL HERE 👆
+
+  // ========== THEME ==========
+  var themeToggle = document.getElementById('themeToggle');
+  if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeToggle.textContent = '☀️'; }
+  themeToggle.addEventListener('click', function() {
+    document.body.classList.toggle('light-mode');
+    themeToggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+    localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  });
+
+  // ========== LOGIN SYSTEM ==========
+ 
+
+  // ========== CHARACTER COUNT ==========
+  function updateCharCount() {
+    document.getElementById('charCount').textContent = document.getElementById('contactMessage').value.length;
+  }
+
+  // ========== FORM SUBMIT TO GOOGLE SHEETS ==========
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var name = document.getElementById('contactName').value.trim();
+    var email = document.getElementById('contactEmail').value.trim();
+    var phone = document.getElementById('contactPhone').value.trim();
+    var subject = document.getElementById('contactSubject').value;
+    var message = document.getElementById('contactMessage').value.trim();
+    var btn = document.getElementById('submitBtn');
+    var msgBox = document.getElementById('formMsg');
+
+    // Validation
+    if (!name || !email || !subject || !message) {
+      showMsg('⚠️ Please fill in all required fields.', 'error');
+      return;
+    }
+    if (!email.includes('@') || !email.includes('.')) {
+      showMsg('⚠️ Please enter a valid email address.', 'error');
+      return;
+    }
+    if (message.length < 10) {
+      showMsg('⚠️ Message must be at least 10 characters.', 'error');
+      return;
+    }
+
+    // Loading
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Sending...';
+
+    // Send to Google Sheets
+    fetch(GOOGLE_SHEET_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        phone: phone || 'Not provided',
+        subject: subject,
+        message: message
+      })
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      btn.disabled = false;
+      btn.innerHTML = '📨 Send Message';
+
+      if (data.success) {
+        showMsg('✅ Message sent successfully! We\'ll reply within 24 hours.', 'success');
+        document.getElementById('contactForm').reset();
+        document.getElementById('charCount').textContent = '0';
+      } else {
+        // Save locally as backup
+        saveLocally(name, email, phone, subject, message);
+        showMsg('✅ Message saved! We\'ll get back to you soon.', 'success');
+        document.getElementById('contactForm').reset();
+        document.getElementById('charCount').textContent = '0';
+      }
+    })
+    .catch(function(error) {
+      console.log('Google Sheets error, saving locally:', error);
+      btn.disabled = false;
+      btn.innerHTML = '📨 Send Message';
+
+      // Save locally
+      saveLocally(name, email, phone, subject, message);
+      showMsg('✅ Message saved! We\'ll get back to you soon.', 'success');
+      document.getElementById('contactForm').reset();
+      document.getElementById('charCount').textContent = '0';
+    });
+  });
+
+  function saveLocally(name, email, phone, subject, message) {
+    var messages = localStorage.getItem('dionContactMessages');
+    messages = messages ? JSON.parse(messages) : [];
+    messages.push({
+      name: name,
+      email: email,
+      phone: phone,
+      subject: subject,
+      message: message,
+      date: new Date().toISOString()
+    });
+    localStorage.setItem('dionContactMessages', JSON.stringify(messages));
+  }
+
+  function showMsg(text, type) {
+    var msgBox = document.getElementById('formMsg');
+    msgBox.textContent = text;
+    msgBox.className = 'msg ' + type;
+    if (type === 'success') {
+      setTimeout(function() {
+        msgBox.className = 'msg';
+        msgBox.textContent = '';
+      }, 6000);
+    }
+  }
+</script>
+<script src="auth.js"></script>
+</body>
+</html>

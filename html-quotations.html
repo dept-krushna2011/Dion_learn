@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HTML Quotations - Dion Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: radial-gradient(circle at top right,#312e81 0%,transparent 30%), radial-gradient(circle at bottom left,#581c87 0%,transparent 30%), #020617;
+      --bg-nav: rgba(2, 6, 23, 0.75);
+      --bg-sidebar: rgba(15, 23, 42, 0.95);
+      --bg-content: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.88));
+      --bg-code: #0f172a;
+      --bg-footer: #010313;
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+      --accent: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --accent-light: rgba(139, 92, 246, 0.12);
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --sidebar-width: 300px;
+    }
+    body.light-mode {
+      --bg-body: radial-gradient(circle at top right, #e0e7ff 0%, transparent 30%), radial-gradient(circle at bottom left, #f3e8ff 0%, transparent 30%), #f8fafc;
+      --bg-nav: rgba(248, 250, 252, 0.85);
+      --bg-sidebar: #ffffff;
+      --bg-content: linear-gradient(145deg, #ffffff, #f1f5f9);
+      --bg-code: #1e293b;
+      --bg-footer: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --accent-light: rgba(124, 58, 237, 0.08);
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body { background: var(--bg-body); color: var(--text-main); transition: all 0.3s ease; padding-top: 80px; }
+
+    nav {
+      width:100%; padding:16px 50px; display:flex; justify-content:space-between;
+      align-items:center; position:fixed; top:0; z-index:1000;
+      background: var(--bg-nav); backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--border); box-shadow: var(--shadow);
+    }
+    .logo { font-size:28px; font-weight:800; color:var(--text-main); text-decoration:none; }
+    .logo span { color:var(--accent); }
+    .nav-links { display:flex; gap:30px; align-items:center; }
+    .nav-links a { text-decoration:none; color:var(--text-muted); font-size:14px; transition:0.3s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--text-main); }
+    .nav-buttons { display:flex; gap:12px; align-items:center; }
+    .login-btn, .signup-btn { padding:9px 20px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; transition:0.3s; }
+    .login-btn { background:transparent; border:1px solid var(--border); color:var(--text-main); }
+    .login-btn:hover { border-color:var(--accent); }
+    .signup-btn { background:var(--accent); color:white; border:none; }
+    .signup-btn:hover { background:var(--accent-hover); }
+    .theme-btn { width:42px; height:42px; border:none; border-radius:12px; background:rgba(255,255,255,0.08); color:var(--text-main); cursor:pointer; font-size:16px; }
+
+    .layout { display:flex; max-width:1500px; margin:0 auto; min-height:calc(100vh - 180px); }
+    .sidebar {
+      width:var(--sidebar-width); min-width:var(--sidebar-width);
+      background:var(--bg-sidebar); border-right:1px solid var(--border);
+      overflow-y:auto; height:calc(100vh - 80px); position:sticky; top:80px; padding:8px 0 20px;
+    }
+    .sidebar-search { padding:14px 16px; position:sticky; top:0; background:var(--bg-sidebar); z-index:10; }
+    .sidebar-search input {
+      width:100%; padding:10px 14px; border-radius:10px;
+      border:1px solid var(--border); background:var(--bg-code); color:var(--text-main);
+      font-size:13px; outline:none; transition:0.3s;
+    }
+    .sidebar-search input:focus { border-color:var(--accent); }
+    .sidebar-category {
+      font-size:11px; font-weight:700; text-transform:uppercase;
+      letter-spacing:1.5px; color:var(--accent); padding:14px 18px 6px; margin-top:4px;
+    }
+    .sidebar a {
+      display:block; padding:7px 18px; text-decoration:none; color:var(--text-muted);
+      font-size:13px; transition:0.2s; border-left:3px solid transparent;
+    }
+    .sidebar a:hover, .sidebar a.active { color:var(--accent); background:var(--accent-light); border-left-color:var(--accent); }
+    .content { flex:1; padding:30px 40px; overflow-y:auto; }
+    .breadcrumb { font-size:13px; color:var(--text-muted); margin-bottom:20px; }
+    .breadcrumb a { color:var(--accent); text-decoration:none; }
+    .breadcrumb a:hover { text-decoration:underline; }
+
+    .section {
+      background:var(--bg-content); border:1px solid var(--border);
+      border-radius:20px; padding:35px; margin-bottom:25px; box-shadow:var(--shadow);
+    }
+    .section h1 { font-size:36px; font-weight:800; margin-bottom:10px; }
+    .section h1 span { color:var(--accent); }
+    .section h2 { font-size:24px; font-weight:700; margin:28px 0 12px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+    .section h3 { font-size:18px; font-weight:600; margin:20px 0 8px; color:var(--accent); }
+    .section p { color:var(--text-muted); font-size:15px; line-height:1.8; margin-bottom:14px; }
+    .section ul, .section ol { color:var(--text-muted); font-size:15px; line-height:2; padding-left:24px; margin-bottom:14px; }
+    .section ul li, .section ol li { margin-bottom:4px; }
+    .section strong { color:var(--text-main); }
+    .section code { background:var(--bg-code); padding:2px 8px; border-radius:4px; font-family:'Courier New',monospace; font-size:13px; color:var(--accent); }
+
+    .code-block {
+      background:var(--bg-code); border:1px solid var(--border);
+      border-radius:12px; padding:18px 22px; margin:14px 0; overflow-x:auto; position:relative;
+    }
+    .code-block pre { margin:0; font-family:'Fira Code','Courier New',monospace; font-size:14px; line-height:1.8; color:#e2e8f0; }
+    .code-block .tag { color:#f472b6; }
+    .code-block .attr { color:#67e8f9; }
+    .code-block .value { color:#a5b4fc; }
+    .code-block .comment { color:#64748b; }
+
+    .note-box { background:rgba(139,92,246,0.1); border-left:4px solid var(--accent); padding:16px 20px; border-radius:0 12px 12px 0; margin:16px 0; }
+    .note-box p { margin:0; font-size:14px; color:var(--text-main); }
+    .tip-box { background:rgba(16,185,129,0.1); border-left:4px solid var(--green); padding:16px 20px; border-radius:0 12px 12px 0; margin:16px 0; }
+    .tip-box p { margin:0; font-size:14px; color:var(--text-main); }
+    .warning-box { background:rgba(245,158,11,0.1); border-left:4px solid var(--yellow); padding:16px 20px; border-radius:0 12px 12px 0; margin:16px 0; }
+    .warning-box p { margin:0; font-size:14px; color:var(--text-main); }
+    .table-wrapper { overflow-x:auto; margin:16px 0; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    table th { background:var(--accent-light); color:var(--accent); padding:14px 16px; text-align:left; font-weight:600; border-bottom:2px solid var(--border); }
+    table td { padding:12px 16px; color:var(--text-muted); border-bottom:1px solid var(--border); }
+    table tr:hover td { background:rgba(139,92,246,0.05); }
+
+    .output-box {
+      background:#f8fafc; border:2px solid #e2e8f0; border-radius:12px;
+      padding:20px; margin:14px 0; color:#0f172a;
+    }
+
+    .btn { display:inline-block; padding:12px 24px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; cursor:pointer; transition:0.3s; }
+    .btn-primary { background:var(--accent); color:white; }
+    .btn-primary:hover { background:var(--accent-hover); transform:translateY(-2px); }
+    .btn-green { background:var(--green); color:white; }
+    .btn-green:hover { background:#059669; transform:translateY(-2px); }
+
+    .nav-btns { display:flex; justify-content:space-between; margin-top:30px; gap:15px; flex-wrap:wrap; }
+    .nav-btns a { padding:14px 28px; border-radius:12px; font-size:14px; font-weight:600; text-decoration:none; transition:0.3s; text-align:center; }
+    .nav-btns .prev { background:transparent; border:1px solid var(--border); color:var(--text-main); }
+    .nav-btns .prev:hover { border-color:var(--accent); background:var(--accent-light); }
+    .nav-btns .next { background:var(--accent); color:white; }
+    .nav-btns .next:hover { background:var(--accent-hover); transform:translateY(-2px); }
+
+    footer { text-align:center; padding:30px; border-top:1px solid var(--border); color:var(--text-muted); background:var(--bg-footer); font-size:14px; margin-top:40px; }
+
+    @media(max-width:900px) {
+      .sidebar { display:none; }
+      .content { padding:20px; }
+      nav { padding:14px 20px; }
+      .nav-links { display:none; }
+      .section { padding:20px; }
+      .section h1 { font-size:26px; }
+      .section h2 { font-size:20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="html-tutorial.html" class="logo">Dion<span>Learn</span></a>
+  <div class="nav-links">
+    <a href="copy.html">Home</a>
+    <a href="cource.html">Courses</a>
+    <a href="not.html">Notes</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</div>
+  <div class="nav-buttons">
+    <button class="login-btn" onclick="goToLogin('signin')">Login</button>
+    <button class="signup-btn" onclick="goToLogin('signup')">Signup</button>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-search"><input type="text" id="searchTopics" placeholder="🔍 Search topics..." oninput="filterTopics()"></div>
+    <div class="sidebar-category">📘 HTML Tutorial</div>
+    <a href="home.html">HTML HOME</a>
+    <a href="intro.html">HTML Introduction</a>
+    <a href="html-editors.html">HTML Editors</a>
+    <a href="html-basic.html">HTML Basic</a>
+    <a href="html-elements.html">HTML Elements</a>
+    <a href="html-attributes.html">HTML Attributes</a>
+    <a href="html-headings.html">HTML Headings</a>
+    <a href="html-paragraphs.html">HTML Paragraphs</a>
+    <a href="html-styles.html">HTML Styles</a>
+    <a href="html-formatting.html">HTML Formatting</a>
+    <a href="html-quotations.html" class="active">HTML Quotations</a>
+    <a href="html-comments.html">HTML Comments</a>
+    <a href="html-colors.html">HTML Colors</a>
+    <a href="html-css.html">HTML CSS</a>
+    <a href="html-links.html">HTML Links</a>
+    <a href="html-images.html">HTML Images</a>
+    <a href="html-favicon.html">HTML Favicon</a>
+    <a href="html-page-title.html">HTML Page Title</a>
+    <a href="html-tables.html">HTML Tables</a>
+    <a href="html-lists.html">HTML Lists</a>
+    <a href="html-block-inline.html">HTML Block &amp; Inline</a>
+    <a href="html-div.html">HTML Div</a>
+    <a href="html-classes.html">HTML Classes</a>
+    <a href="html-id.html">HTML Id</a>
+    <a href="html-buttons.html">HTML Buttons</a>
+    <a href="html-iframes.html">HTML Iframes</a>
+    <a href="html-javascript.html">HTML JavaScript</a>
+    <a href="html-file-paths.html">HTML File Paths</a>
+    <a href="html-head.html">HTML Head</a>
+    <a href="html-layout.html">HTML Layout</a>
+    <a href="html-responsive.html">HTML Responsive</a>
+    <a href="html-computercode.html">HTML Computercode</a>
+    <a href="html-semantics.html">HTML Semantics</a>
+    <a href="html-style-guide.html">HTML Style Guide</a>
+    <a href="html-entities.html">HTML Entities</a>
+    <a href="html-symbols.html">HTML Symbols</a>
+    <a href="html-emojis.html">HTML Emojis</a>
+    <a href="html-charsets.html">HTML Charsets</a>
+    <a href="html-url-encode.html">HTML URL Encode</a>
+    <a href="html-vs-xhtml.html">HTML vs. XHTML</a>
+    <div class="sidebar-category">📝 HTML Forms</div>
+    <a href="html-forms.html">HTML Forms</a>
+    <a href="html-form-attributes.html">HTML Form Attributes</a>
+    <a href="html-form-elements.html">HTML Form Elements</a>
+    <a href="html-input-types.html">HTML Input Types</a>
+    <a href="html-input-attributes.html">HTML Input Attributes</a>
+    <a href="html-input-form-attributes.html">Input Form Attributes</a>
+    <div class="sidebar-category">🎨 HTML Graphics</div>
+    <a href="html-canvas.html">HTML Canvas</a>
+    <a href="html-svg.html">HTML SVG</a>
+    <div class="sidebar-category">🎬 HTML Media</div>
+    <a href="html-media.html">HTML Media</a>
+    <a href="html-video.html">HTML Video</a>
+    <a href="html-audio.html">HTML Audio</a>
+    <a href="html-plugins.html">HTML Plug-ins</a>
+    <a href="html-youtube.html">HTML YouTube</a>
+    <div class="sidebar-category">🔌 HTML APIs</div>
+    <a href="html-web-apis.html">HTML Web APIs</a>
+    <a href="html-geolocation.html">HTML Geolocation</a>
+    <a href="html-drag-drop.html">HTML Drag and Drop</a>
+    <a href="html-web-storage.html">HTML Web Storage</a>
+    <a href="html-web-workers.html">HTML Web Workers</a>
+    <a href="html-sse.html">HTML SSE</a>
+    <div class="sidebar-category">💡 HTML Examples</div>
+    <a href="html-examples.html">HTML Examples</a>
+   
+    <a href="html-quiz.html">HTML Quiz</a>
+    <a href="html-exercises.html">HTML Exercises</a>
+    <a href="html-challenges.html">HTML Challenges</a>
+    <a href="html-website.html">HTML Website</a>
+    <a href="html-syllabus.html">HTML Syllabus</a>
+    <a href="html-study-plan.html">HTML Study Plan</a>
+    <a href="html-interview-prep.html">HTML Interview Prep</a>
+    <a href="html-bootcamp.html">HTML Bootcamp</a>
+    <a href="html-summary.html">HTML Summary</a>
+    <a href="html-accessibility.html">HTML Accessibility</a>
+    <div class="sidebar-category">📚 HTML References</div>
+    <a href="html-tag-list.html">HTML Tag List</a>
+    <a href="html-attributes-ref.html">HTML Attributes</a>
+    <a href="html-global-attributes.html">HTML Global Attributes</a>
+    <a href="html-browser-support.html">HTML Browser Support</a>
+    <a href="html-events.html">HTML Events</a>
+    <a href="html-colors-ref.html">HTML Colors</a>
+    <a href="html-canvas-ref.html">HTML Canvas</a>
+    <a href="html-audio-video-ref.html">HTML Audio/Video</a>
+    <a href="html-doctypes.html">HTML Doctypes</a>
+    <a href="html-character-sets.html">HTML Character Sets</a>
+    <a href="html-url-encode-ref.html">HTML URL Encode</a>
+    <a href="html-lang-codes.html">HTML Lang Codes</a>
+    <a href="http-messages.html">HTTP Messages</a>
+    <a href="http-methods.html">HTTP Methods</a>
+    <a href="px-to-em-converter.html">PX to EM Converter</a>
+    <a href="keyboard-shortcuts.html">Keyboard Shortcuts</a>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+    <div class="breadcrumb"><a href="html-tutorial.html">HTML Tutorial</a> → HTML Quotations</div>
+
+    <!-- HERO -->
+    <div class="section">
+      <h1>💬 HTML <span>Quotations</span></h1>
+      <p>HTML provides several elements for marking up <strong>quotations, citations, abbreviations, contact information,</strong> and <strong>text direction</strong>.</p>
+    </div>
+
+    <!-- BLOCKQUOTE -->
+    <div class="section">
+      <h2>📜 &lt;blockquote&gt; — Long Quotations</h2>
+      <p>The <code>&lt;blockquote&gt;</code> element defines a section that is quoted from another source. Browsers usually <strong>indent</strong> blockquote content.</p>
+      <div class="code-block"><pre><span class="tag">&lt;p&gt;</span>Here is a quote from WWF's website:<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;blockquote&gt;</span>
+For 60 years, WWF has worked to help people and nature thrive.
+As the world's leading conservation organization, WWF works in
+nearly 100 countries.
+<span class="tag">&lt;/blockquote&gt;</span></pre></div>
+      <h3>📟 Browser Output:</h3>
+      <div class="output-box">
+        <p>Here is a quote from WWF's website:</p>
+        <blockquote style="margin-left:20px;padding-left:15px;border-left:3px solid #8b5cf6;">
+          For 60 years, WWF has worked to help people and nature thrive. As the world's leading conservation organization, WWF works in nearly 100 countries.
+        </blockquote>
+      </div>
+      <div class="tip-box"><p><strong>💡 Cite Attribute:</strong> Use <code>cite="URL"</code> in <code>&lt;blockquote&gt;</code> to reference the source URL. It's not visible but helps search engines.</p></div>
+    </div>
+
+    <!-- SHORT QUOTATION -->
+    <div class="section">
+      <h2>💬 &lt;q&gt; — Short Inline Quotations</h2>
+      <p>The <code>&lt;q&gt;</code> tag defines a <strong>short inline quotation</strong>. Browsers automatically add <strong>quotation marks</strong> around the text.</p>
+      <div class="code-block"><pre><span class="tag">&lt;p&gt;</span>
+  WWF's goal is to: 
+  <span class="tag">&lt;q&gt;</span>Build a future where people live in harmony with nature.<span class="tag">&lt;/q&gt;</span>
+<span class="tag">&lt;/p&gt;</span></pre></div>
+      <h3>📟 Browser Output:</h3>
+      <div class="output-box">
+        WWF's goal is to: <q>Build a future where people live in harmony with nature.</q>
+      </div>
+    </div>
+
+    <!-- ABBREVIATIONS -->
+    <div class="section">
+      <h2>🔤 &lt;abbr&gt; — Abbreviations</h2>
+      <p>The <code>&lt;abbr&gt;</code> tag defines an abbreviation or acronym. The <code>title</code> attribute shows the full form as a <strong>tooltip on hover</strong>.</p>
+      <div class="code-block"><pre><span class="tag">&lt;p&gt;</span>
+  <span class="tag">&lt;abbr</span> <span class="attr">title</span>=<span class="value">"HyperText Markup Language"</span><span class="tag">&gt;</span>HTML<span class="tag">&lt;/abbr&gt;</span> is the
+  standard markup language for creating web pages.
+<span class="tag">&lt;/p&gt;</span></pre></div>
+      <h3>📟 Browser Output:</h3>
+      <div class="output-box">
+        <abbr title="HyperText Markup Language">HTML</abbr> is the standard markup language for creating web pages. (Hover over "HTML" to see the tooltip!)
+      </div>
+    </div>
+
+    <!-- ADDRESS -->
+    <div class="section">
+      <h2>📍 &lt;address&gt; — Contact Information</h2>
+      <p>The <code>&lt;address&gt;</code> tag defines the <strong>contact information</strong> for the author/owner of a document or article. Browsers usually display it in <em>italic</em>.</p>
+      <div class="code-block"><pre><span class="tag">&lt;address&gt;</span>
+  Written by John Doe.<span class="tag">&lt;br&gt;</span>
+  Visit us at:<span class="tag">&lt;br&gt;</span>
+  Example.com<span class="tag">&lt;br&gt;</span>
+  Box 564, Disneyland<span class="tag">&lt;br&gt;</span>
+  USA
+<span class="tag">&lt;/address&gt;</span></pre></div>
+      <h3>📟 Browser Output:</h3>
+      <div class="output-box">
+        <address style="font-style:italic;">
+          Written by John Doe.<br>
+          Visit us at:<br>
+          Example.com<br>
+          Box 564, Disneyland<br>
+          USA
+        </address>
+      </div>
+    </div>
+
+    <!-- CITE -->
+    <div class="section">
+      <h2>📚 &lt;cite&gt; — Work Title</h2>
+      <p>The <code>&lt;cite&gt;</code> tag defines the <strong>title of a creative work</strong> (book, poem, song, movie, painting, etc.). Browsers usually display it in <em>italic</em>.</p>
+      <div class="code-block"><pre><span class="tag">&lt;p&gt;</span>
+  <span class="tag">&lt;cite&gt;</span>The Scream<span class="tag">&lt;/cite&gt;</span> by Edvard Munch. 
+  Painted in 1893.
+<span class="tag">&lt;/p&gt;</span></pre></div>
+      <h3>📟 Browser Output:</h3>
+      <div class="output-box">
+        <cite>The Scream</cite> by Edvard Munch. Painted in 1893.
+      </div>
+    </div>
+
+    <!-- BDO -->
+    <div class="section">
+      <h2>↔️ &lt;bdo&gt; — Bi-Directional Override</h2>
+      <p>The <code>&lt;bdo&gt;</code> (Bi-Directional Override) tag overrides the current text direction. Use <code>dir="rtl"</code> for <strong>right-to-left</strong> text (like Arabic or Hebrew).</p>
+      <div class="code-block"><pre><span class="comment">&lt;!-- Normal text --&gt;</span>
+<span class="tag">&lt;p&gt;</span>This text will go left to right.<span class="tag">&lt;/p&gt;</span>
+
+<span class="comment">&lt;!-- Right-to-left override --&gt;</span>
+<span class="tag">&lt;bdo</span> <span class="attr">dir</span>=<span class="value">"rtl"</span><span class="tag">&gt;</span>This text will go right to left.<span class="tag">&lt;/bdo&gt;</span></pre></div>
+      <h3>📟 Browser Output:</h3>
+      <div class="output-box">
+        <p>This text will go left to right.</p>
+        <bdo dir="rtl">This text will go right to left.</bdo>
+      </div>
+    </div>
+
+    <!-- COMPLETE REFERENCE -->
+    <div class="section">
+      <h2>📋 Quotation Tags — Complete Reference</h2>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>Tag</th><th>Description</th><th>Browser Display</th></tr>
+          <tr><td><code>&lt;blockquote&gt;</code></td><td>Long quotation from another source</td><td>Indented, often with margin</td></tr>
+          <tr><td><code>&lt;q&gt;</code></td><td>Short inline quotation</td><td>Adds "quotation marks" automatically</td></tr>
+          <tr><td><code>&lt;abbr&gt;</code></td><td>Abbreviation or acronym (use title for full form)</td><td>Dotted underline on hover</td></tr>
+          <tr><td><code>&lt;address&gt;</code></td><td>Contact information for author/owner</td><td>Italic text</td></tr>
+          <tr><td><code>&lt;cite&gt;</code></td><td>Title of a creative work (book, movie, etc.)</td><td>Italic text</td></tr>
+          <tr><td><code>&lt;bdo&gt;</code></td><td>Bi-Directional Override — changes text direction</td><td>Reverses text when dir="rtl"</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="nav-btns">
+      <a href="html-formatting.html" class="prev">← Previous: HTML Formatting</a>
+      <a href="html-comments.html" class="next">Next: HTML Comments →</a>
+    </div>
+  </main>
+</div>
+
+<footer>&copy; 2026 Dion Learn • Learn • Build • Create 🚀</footer>
+
+<script>
+  const themeToggle = document.getElementById("themeToggle");
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "light") { document.body.classList.add("light-mode"); themeToggle.innerHTML = "☀️"; }
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+    themeToggle.innerHTML = document.body.classList.contains("light-mode") ? "☀️" : "🌙";
+    localStorage.setItem("theme", document.body.classList.contains("light-mode") ? "light" : "dark");
+  });
+  function goToLogin(tab){localStorage.setItem("returnPage",window.location.href);window.location.href="login.html?tab="+tab}
+  function filterTopics() {
+    const query = document.getElementById('searchTopics').value.toLowerCase();
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.style.display = link.textContent.toLowerCase().includes(query) ? 'block' : 'none';
+    });
+  }
+</script>
+<script src="auth.js"></script>
+</body>
+</html>

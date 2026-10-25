@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Courses - Dion Learn</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-body: radial-gradient(circle at top right,#312e81 0%,transparent 30%), radial-gradient(circle at bottom left,#581c87 0%,transparent 30%), #020617;
+      --bg-nav: rgba(2, 6, 23, 0.65);
+      --bg-card: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.88));
+      --bg-card-inner: #020617;
+      --bg-footer: #010313;
+      --bg-theme-btn: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+      --accent-color: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --shadow-nav: 0 8px 30px rgba(0, 0, 0, 0.35);
+      --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.25);
+      --img-opacity: 0.85;
+    }
+
+    body.light-mode {
+      --bg-body: radial-gradient(circle at top right, #e0e7ff 0%, transparent 30%), radial-gradient(circle at bottom left, #f3e8ff 0%, transparent 30%), #f8fafc;
+      --bg-nav: rgba(248, 250, 252, 0.75);
+      --bg-card: linear-gradient(145deg, #ffffff, #f1f5f9);
+      --bg-card-inner: #f8fafc;
+      --bg-footer: #e2e8f0;
+      --bg-theme-btn: rgba(15, 23, 42, 0.08);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent-color: #7c3aed;
+      --accent-hover: #6d28d9;
+      --border-color: rgba(15, 23, 42, 0.08);
+      --shadow-nav: 0 8px 30px rgba(15, 23, 42, 0.08);
+      --shadow-card: 0 10px 40px rgba(15, 23, 42, 0.06);
+      --img-opacity: 1;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    body{
+      background: var(--bg-body);
+      color: var(--text-main);
+      overflow-x:hidden;
+      transition: background 0.4s ease, color 0.4s ease; 
+      padding-top: 100px;
+    }
+
+    nav{
+      width:100%;
+      padding:18px 70px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:fixed;
+      top:0;
+      z-index:1000;
+      background: var(--bg-nav);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom:1px solid var(--border-color);
+      box-shadow: var(--shadow-nav);
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+
+    .logo{
+      font-size:32px;
+      font-weight:800;
+      color: var(--text-main);
+    }
+
+    .logo span{
+      color: var(--accent-color);
+    }
+
+    .nav-links{
+      display:flex;
+      gap:35px;
+      align-items:center;
+    }
+
+    .nav-links a{
+      text-decoration:none;
+      color: var(--text-muted);
+      font-size:15px;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--text-main);
+    }
+
+    .nav-buttons{
+      display:flex;
+      gap:15px;
+      align-items: center;
+    }
+
+    .login-btn{
+      padding:11px 22px;
+      border:1px solid var(--border-color);
+      border-radius:12px;
+      background:transparent;
+      color: var(--text-main);
+      cursor:pointer;
+      font-size:14px;
+      font-weight:600;
+      transition: 0.3s ease;
+    }
+
+    .login-btn:hover{
+      border-color: var(--accent-color);
+    }
+
+    .signup-btn{
+      padding:11px 22px;
+      border:none;
+      border-radius:12px;
+      background: var(--accent-color);
+      color:white;
+      font-weight:600;
+      cursor:pointer;
+      font-size:14px;
+      transition:0.3s;
+    }
+
+    .signup-btn:hover{
+      background: var(--accent-hover);
+    }
+
+    .theme-btn{
+      width:48px;
+      height:48px;
+      border:none;
+      border-radius:14px;
+      background: var(--bg-theme-btn);
+      color: var(--text-main);
+      cursor:pointer;
+      font-size:18px;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .courses-header {
+      text-align: center;
+      padding: 60px 20px 20px;
+    }
+
+    .courses-header h1 {
+      font-size: 50px;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .courses-header h1 span {
+      color: var(--accent-color);
+    }
+
+    .courses-header p {
+      color: var(--text-muted);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 35px;
+      padding: 40px 70px 90px;
+    }
+
+    .course-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+    }
+
+    .course-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent-color);
+      box-shadow: 0 15px 35px rgba(139,92,246,0.15);
+    }
+
+    .course-image-container {
+      width: 100%;
+      height: 180px;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .course-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: var(--img-opacity);
+      transition: opacity 0.4s ease, transform 0.3s ease;
+    }
+
+    .course-card:hover .course-image-container img {
+      transform: scale(1.04);
+    }
+
+    .course-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--bg-theme-btn);
+      border: 1px solid var(--border-color);
+      color: var(--accent-color);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      margin-bottom: 14px;
+    }
+
+    .course-card h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .course-card p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      flex-grow: 1;
+    }
+
+    .course-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .course-lessons {
+      font-size: 14px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .enroll-btn {
+      padding: 10px 20px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size:14px;
+      font-family:'Poppins',sans-serif;
+    }
+
+    .enroll-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    .coming-soon {
+      text-align: center;
+      padding: 60px 20px;
+      margin: 0 70px 90px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .coming-soon h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .coming-soon p {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    footer{
+      text-align:center;
+      padding:45px;
+      border-top:1px solid var(--border-color);
+      color: var(--text-muted);
+      background: var(--bg-footer);
+      font-size:15px;
+    }
+
+    @media(max-width:900px){
+      nav{ padding:18px 20px; }
+      .nav-links{ display:none; }
+      .courses-header h1 { font-size: 36px; }
+      .courses-grid { padding: 20px; gap: 20px; }
+      .course-image-container { height: 160px; }
+      .coming-soon { margin: 0 20px 50px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">
+      Dion<span>Learn</span>
+    </div>
+
+    <div class="nav-links">
+      <a href="copy.html">Home</a>
+      <a href="cource.html" class="active">Courses</a>
+      <a href="not.html">Notes</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="login-btn" onclick="goToLogin('signin')">Login</button>
+      <button class="signup-btn" onclick="goToLogin('signup')">Signup</button>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="courses-header">
+    <h1>Explore Our <span>Courses 🎓</span></h1>
+    <p>Settle in, grab a warm drink, and choose from our curated industrial development programs.</p>
+  </header>
+
+  <!-- COURSES GRID -->
+  <section class="courses-grid">
+
+    <!-- COURSE 1: Full Stack -->
+    <div class="course-card">
+      <div>
+        <div class="course-image-container">
+          <img src="alexandre-debieve-FO7JIlwjOtU-unsplash.jpg" alt="Full-Stack Web Development">
+        </div>
+        <div class="course-badge">💼 Industry Standard</div>
+        <h2>Full-Stack HTML Development</h2>
+        <p>A Mastrpeice By Which Learn HTML From Scratch.</p>
+      </div>
+      <div class="course-meta">
+        <div class="course-lessons">📖 86 Lessons</div>
+        <a href="web.html"><button class="enroll-btn">Start Learning</button></a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- COMING SOON SECTION -->
+  <div class="coming-soon">
+    <h2>🚀 More Courses Coming Soon!</h2>
+    <p>We will bring more courses as soon as possible. Stay tuned for exciting new learning opportunities!</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2026 Dion Learn • Learn • Build • Create 🚀
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    function goToLogin(tab){
+      localStorage.setItem("returnPage",window.location.href);
+      window.location.href="login.html?tab="+tab;
+    }
+
+    const themeToggle = document.getElementById("themeToggle");
+    
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") {
+      document.body.classList.add("light-mode");
+      themeToggle.innerHTML = "☀️";
+    }
+
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("light-mode");
+
+      if (document.body.classList.contains("light-mode")) {
+        themeToggle.innerHTML = "☀️";
+        localStorage.setItem("theme", "light");
+      } else {
+        themeToggle.innerHTML = "🌙";
+        localStorage.setItem("theme", "dark");
+      }
+    });
+
+
+  </script>
+<script src="auth.js"></script>
+</body>
+</html>

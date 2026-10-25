@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Ultimate Handbook - Dion Learn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #475569;
+            --accent: #8b5cf6;
+            --accent-light: #ede9fe;
+            --border: #e2e8f0;
+            --code-bg: #f8fafc;
+            --tip-bg: #f0fdf4;
+            --tip-border: #10b981;
+            --note-bg: #faf5ff;
+            --note-border: #8b5cf6;
+            --example-bg: #fffbeb;
+            --example-border: #f59e0b;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family:'Poppins',sans-serif;
+            background:var(--bg);
+            color:var(--text);
+            max-width:850px;
+            margin:0 auto;
+            padding:20px 30px 60px;
+            line-height:1.9;
+            font-size:14px;
+        }
+
+        /* Download Bar */
+        .download-bar {
+            position:fixed; top:0; left:0; right:0;
+            background:#0f172a; color:white;
+            padding:14px 30px; z-index:999;
+            display:flex; justify-content:space-between; align-items:center;
+            font-size:14px; font-weight:600;
+        }
+        .download-bar button {
+            padding:10px 24px; background:var(--accent);
+            color:white; border:none; border-radius:8px;
+            font-weight:600; cursor:pointer; font-size:14px;
+            font-family:'Poppins',sans-serif;
+        }
+        .download-bar button:hover { opacity:0.85; }
+
+        /* Cover */
+        .cover {
+            text-align:center; padding:60px 20px 40px;
+            margin-top:60px; page-break-after:always;
+            border-bottom:4px solid var(--accent);
+        }
+        .cover h1 { font-size:42px; font-weight:800; margin-bottom:10px; }
+        .cover h1 span { color:var(--accent); }
+        .cover .subtitle { font-size:18px; color:var(--text-muted); margin-bottom:20px; }
+        .cover .meta { font-size:13px; color:var(--text-muted); }
+        .cover .features {
+            display:flex; justify-content:center; gap:30px;
+            flex-wrap:wrap; margin-top:25px;
+        }
+        .cover .feat {
+            background:var(--accent-light); padding:15px 25px;
+            border-radius:12px; text-align:center; min-width:120px;
+        }
+        .cover .feat .icon { font-size:30px; }
+        .cover .feat .label { font-size:12px; color:var(--accent); font-weight:600; margin-top:5px; }
+
+        /* Sections */
+        h1 {
+            font-size:30px; font-weight:800; margin:50px 0 15px;
+            padding-bottom:8px; border-bottom:3px solid var(--accent);
+            page-break-before:always;
+        }
+        h1:first-of-type { page-break-before:auto; }
+        h2 { font-size:22px; font-weight:700; margin:30px 0 10px; color:var(--accent); }
+        h3 { font-size:17px; font-weight:600; margin:20px 0 8px; }
+
+        p { margin-bottom:12px; color:var(--text-muted); }
+        ul, ol { margin:10px 0 15px 25px; color:var(--text-muted); }
+        li { margin-bottom:5px; }
+
+        /* Code */
+        code {
+            background:var(--code-bg); padding:2px 7px;
+            border-radius:4px; font-family:'Courier New',monospace;
+            font-size:13px; color:#7c3aed;
+        }
+        pre {
+            background:var(--code-bg); padding:16px 20px;
+            border-radius:10px; overflow-x:auto; margin:15px 0;
+            border-left:4px solid var(--accent);
+            font-size:12px; line-height:1.7;
+        }
+        pre code { background:none; padding:0; color:#0f172a; }
+
+        /* Tables */
+        table {
+            width:100%; border-collapse:collapse;
+            margin:15px 0; font-size:12px;
+        }
+        th {
+            background:var(--accent); color:white;
+            padding:12px 14px; text-align:left; font-weight:600;
+        }
+        td {
+            padding:10px 14px; border-bottom:1px solid var(--border);
+            color:var(--text-muted);
+        }
+        tr:nth-child(even) td { background:#fafafa; }
+
+        /* Boxes */
+        .note {
+            background:var(--note-bg); border-left:4px solid var(--note-border);
+            padding:14px 18px; margin:15px 0; border-radius:0 8px 8px 0;
+        }
+        .note strong { color:var(--accent); }
+        .tip {
+            background:var(--tip-bg); border-left:4px solid var(--tip-border);
+            padding:14px 18px; margin:15px 0; border-radius:0 8px 8px 0;
+        }
+        .example {
+            background:var(--example-bg); border-left:4px solid var(--example-border);
+            padding:14px 18px; margin:15px 0; border-radius:0 8px 8px 0;
+        }
+        .example strong { color:#d97706; }
+
+        /* Real world diagram */
+        .diagram {
+            background:var(--code-bg); padding:20px;
+            border-radius:12px; margin:15px 0; text-align:center;
+            border:1px solid var(--border); font-family:monospace;
+            line-height:1.6;
+        }
+
+        /* Images */
+        img { max-width:100%; border-radius:10px; margin:15px 0; border:1px solid var(--border); }
+
+        /* Print */
+        @media print {
+            .download-bar { display:none; }
+            body { padding:10px; font-size:12px; }
+            h1 { page-break-before:always; font-size:24px; }
+            h1:first-of-type { page-break-before:auto; }
+            pre { font-size:10px; }
+            table { font-size:10px; }
+        }
+
+        @media(max-width:768px) {
+            body { padding:15px; }
+            .cover h1 { font-size:28px; }
+            h1 { font-size:22px; }
+            .features { gap:10px; }
+            .feat { min-width:80px; padding:10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Download Bar -->
+    <div class="download-bar">
+        📘 HTML Ultimate Handbook — Dion Learn
+        <button onclick="window.print()">📥 Save as PDF</button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- COVER PAGE -->
+    <!-- ========================================== -->
+    <div class="cover">
+        <h1>HTML <span>Ultimate Handbook</span></h1>
+        <p class="subtitle">From Zero to Hero — Learn HTML with Simple Language & Real-World Examples</p>
+        <div class="features">
+            <div class="feat"><div class="icon">📖</div><div class="label">10 Chapters</div></div>
+            <div class="feat"><div class="icon">💻</div><div class="label">100+ Examples</div></div>
+            <div class="feat"><div class="icon">🌍</div><div class="label">Real-World</div></div>
+            <div class="feat"><div class="icon">📝</div><div class="label">Simple Language</div></div>
+        </div>
+        <p class="meta">📚 Dion Learn • Free Learning • Learn • Build • Create 🚀</p>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TABLE OF CONTENTS -->
+    <!-- ========================================== -->
+    <h1>📋 Table of Contents</h1>
+    <ol style="line-height:2.5;">
+        <li>What is HTML? (In Simple Words)</li>
+        <li>Setting Up — Your First Webpage</li>
+        <li>Basic Building Blocks — Text & Headings</li>
+        <li>Links & Images — Connecting the Web</li>
+        <li>Lists & Tables — Organizing Information</li>
+        <li>Forms — Getting Input from Users</li>
+        <li>Layout & Structure — Building Page Skeletons</li>
+        <li>Multimedia — Video, Audio & YouTube</li>
+        <li>Making It Pretty — CSS Basics</li>
+        <li>Real-World Projects</li>
+    </ol>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER 1 -->
+    <!-- ========================================== -->
+    <h1>📖 Chapter 1: What is HTML?</h1>
+
+    <h2>In Simple Words...</h2>
+    <p>Imagine you're building a <strong>house</strong>:</p>
+    <ul>
+        <li><strong>HTML</strong> = The walls, roof, doors, and windows (the <strong>structure</strong>)</li>
+        <li><strong>CSS</strong> = The paint, curtains, and decorations (the <strong>beauty</strong>)</li>
+        <li><strong>JavaScript</strong> = The doorbell, light switches, and smart devices (the <strong>brains</strong>)</li>
+    </ul>
+
+    <div class="note">
+        <strong>🧠 Key Point:</strong> HTML is <strong>NOT</strong> a programming language. It's a <strong>markup language</strong> — it structures content but doesn't do calculations.
+    </div>
+
+    <h2>What Does HTML Look Like?</h2>
+    <pre><code>&lt;h1&gt;Welcome to My Website&lt;/h1&gt;
+&lt;p&gt;This is a paragraph of text.&lt;/p&gt;
+&lt;button&gt;Click Me!&lt;/button&gt;</code></pre>
+
+    <h2>🌍 Real-World Example: YouTube</h2>
+    <p>When you open YouTube, everything you see is made with HTML:</p>
+    <div class="diagram">
+┌──────────────────────────────────────────┐
+│ 🔴 YouTube     🔍 [Search Bar]    [🔔] [👤]│ ← &lt;header&gt;
+├──────────────────────────────────────────┤
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐   │
+│ │ Thumbnail│ │ Thumbnail│ │ Thumbnail│   │ ← &lt;div&gt; cards
+│ │ Video 1  │ │ Video 2  │ │ Video 3  │   │
+│ └──────────┘ └──────────┘ └──────────┘   │
+├──────────────────────────────────────────┤
+│ About  Press  Copyright  Contact Us      │ ← &lt;footer&gt;
+└──────────────────────────────────────────┘
+    </div>
+    <p>Every video thumbnail, search bar, button, and text — that's all <strong>HTML</strong>!</p>
+
+    <h2>How the Web Works (30 Seconds)</h2>
+    <ol>
+        <li>You type <strong>youtube.com</strong> in your browser</li>
+        <li>Your browser asks YouTube's server: "Give me the page!"</li>
+        <li>The server sends back an <strong>HTML file</strong></li>
+        <li>Your browser reads the HTML and <strong>displays the page</strong></li>
+    </ol>
+
+    <div class="tip">
+        <strong>💡 Fun Fact:</strong> The first ever website was created by Tim Berners-Lee in 1991. It's still live at <strong>info.cern.ch</strong>!
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER 2 -->
+    <!-- ========================================== -->
+    <h1>🔧 Chapter 2: Setting Up — Your First Webpage</h1>
+
+    <h2>What You Need</h2>
+    <ul>
+        <li>✅ A computer (Windows, Mac, or Linux)</li>
+        <li>✅ A text editor (We recommend <strong>VS Code</strong> — it's free!)</li>
+        <li>✅ A browser (Chrome, Firefox, or Edge)</li>
+    </ul>
+
+    <h2>Your First HTML File</h2>
+    <p>Create a file called <code>index.html</code> and type this:</p>
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My First Website&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, World! 🌍&lt;/h1&gt;
+    &lt;p&gt;I just created my first webpage!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h2>What Each Line Means</h2>
+    <table>
+        <tr><th>Code</th><th>What It Does</th></tr>
+        <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Tells browser: "This is HTML5"</td></tr>
+        <tr><td><code>&lt;html&gt;</code></td><td>The root — wraps everything</td></tr>
+        <tr><td><code>&lt;head&gt;</code></td><td>Info about the page (not visible)</td></tr>
+        <tr><td><code>&lt;title&gt;</code></td><td>Text shown in browser tab</td></tr>
+        <tr><td><code>&lt;body&gt;</code></td><td>Everything VISIBLE on the page</td></tr>
+        <tr><td><code>&lt;h1&gt;</code></td><td>Main heading (biggest text)</td></tr>
+        <tr><td><code>&lt;p&gt;</code></td><td>Paragraph of text</td></tr>
+    </table>
+
+    <div class="example">
+        <strong>🌍 Real-World:</strong> Every website you visit — Google, Facebook, Amazon — starts with this exact same structure. They just have thousands more lines inside!
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER 3 -->
+    <!-- ========================================== -->
+    <h1>🧱 Chapter 3: Basic Building Blocks</h1>
+
+    <h2>Headings (h1 to h6)</h2>
+    <p>Think of headings like <strong>newspaper headlines</strong>. h1 is the main title, h2 is a sub-title, and so on.</p>
+    <pre><code>&lt;h1&gt;Main Title (Biggest)&lt;/h1&gt;
+&lt;h2&gt;Section Heading&lt;/h2&gt;
+&lt;h3&gt;Sub-section&lt;/h3&gt;
+&lt;h4&gt;Smaller Heading&lt;/h4&gt;
+&lt;h5&gt;Even Smaller&lt;/h5&gt;
+&lt;h6&gt;Smallest Heading&lt;/h6&gt;</code></pre>
+
+    <div class="tip">
+        <strong>💡 SEO Tip:</strong> Use only <strong>ONE &lt;h1&gt;</strong> per page. Google uses it to understand what your page is about.
+    </div>
+
+    <h2>Paragraphs</h2>
+    <pre><code>&lt;p&gt;This is a paragraph. Browsers automatically add space between paragraphs.&lt;/p&gt;
+&lt;p&gt;This is another paragraph.&lt;/p&gt;</code></pre>
+
+    <h2>Text Formatting</h2>
+    <table>
+        <tr><th>Tag</th><th>What It Does</th><th>Looks Like</th></tr>
+        <tr><td><code>&lt;b&gt;</code></td><td>Bold text</td><td><b>Bold</b></td></tr>
+        <tr><td><code>&lt;strong&gt;</code></td><td>Important text (bold + meaning)</td><td><strong>Important</strong></td></tr>
+        <tr><td><code>&lt;i&gt;</code></td><td>Italic text</td><td><i>Italic</i></td></tr>
+        <tr><td><code>&lt;em&gt;</code></td><td>Emphasized text (italic + meaning)</td><td><em>Emphasized</em></td></tr>
+        <tr><td><code>&lt;mark&gt;</code></td><td>Highlighted text</td><td><mark>Highlighted</mark></td></tr>
+        <tr><td><code>&lt;small&gt;</code></td><td>Smaller text</td><td><small>Small</small></td></tr>
+        <tr><td><code>&lt;del&gt;</code></td><td>Deleted/strikethrough</td><td><del>Deleted</del></td></tr>
+        <tr><td><code>&lt;ins&gt;</code></td><td>Inserted/underlined</td><td><ins>Inserted</ins></td></tr>
+        <tr><td><code>&lt;sub&gt;</code></td><td>Subscript (below)</td><td>H<sub>2</sub>O</td></tr>
+        <tr><td><code>&lt;sup&gt;</code></td><td>Superscript (above)</td><td>X<sup>2</sup></td></tr>
+    </table>
+
+    <div class="example">
+        <strong>🌍 Real-World:</strong> Amazon uses <code>&lt;del&gt;</code> to show original prices with a strikethrough: <del>$100</del> <strong>$75</strong>
+    </div>
+
+    <h2>Line Breaks & Horizontal Rules</h2>
+    <pre><code>&lt;p&gt;Line 1&lt;br&gt;Line 2&lt;/p&gt;  &lt;!-- br = line break --&gt;
+&lt;hr&gt;  &lt;!-- hr = horizontal line --&gt;</code></pre>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER 4 -->
+    <!-- ========================================== -->
+    <h1>🔗 Chapter 4: Links & Images</h1>
+
+    <h2>Hyperlinks — The "Web" in Web</h2>
+    <p>Links connect pages together. Without them, there is no "world wide web."</p>
+    <pre><code>&lt;!-- Link to Google --&gt;
+&lt;a href="https://google.com"&gt;Go to Google&lt;/a&gt;
+
+&lt;!-- Link that opens in NEW tab --&gt;
+&lt;a href="about.html" target="_blank"&gt;About Us (New Tab)&lt;/a&gt;
+
+&lt;!-- Email link --&gt;
+&lt;a href="mailto:hello@example.com"&gt;Email Us&lt;/a&gt;
+
+&lt;!-- Phone link (works on mobile) --&gt;
+&lt;a href="tel:+911234567890"&gt;Call Us&lt;/a&gt;</code></pre>
+
+    <div class="example">
+        <strong>🌍 Real-World:</strong> Every time you click a search result on Google, you're clicking an <code>&lt;a&gt;</code> tag!
+    </div>
+
+    <h2>Images</h2>
+    <pre><code>&lt;img src="sunset.jpg" alt="Beautiful orange sunset" width="400"&gt;</code></pre>
+
+    <table>
+        <tr><th>Attribute</th><th>Required?</th><th>Purpose</th></tr>
+        <tr><td><code>src</code></td><td>✅ Yes</td><td>Path to the image file</td></tr>
+        <tr><td><code>alt</code></td><td>✅ Highly Recommended</td><td>Text description (for blind users & SEO)</td></tr>
+        <tr><td><code>width</code></td><td>❌ Optional</td><td>Width in pixels</td></tr>
+        <tr><td><code>height</code></td><td>❌ Optional</td><td>Height in pixels</td></tr>
+    </table>
+
+    <div class="note">
+        <strong>🧠 Always add <code>alt</code> text!</strong> It helps visually impaired users (screen readers read it aloud) and Google uses it to understand your images.
+    </div>
+
+    <h2>Image as a Link</h2>
+    <pre><code>&lt;a href="product.html"&gt;
+    &lt;img src="product.jpg" alt="Buy this product"&gt;
+&lt;/a&gt;</code></pre>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER 5 -->
+    <!-- ========================================== -->
+    <h1>📋 Chapter 5: Lists & Tables</h1>
+
+    <h2>Lists — 3 Types</h2>
+
+    <h3>1. Unordered List (Bullet Points)</h3>
+    <pre><code>&lt;ul&gt;
+    &lt;li&gt;HTML&lt;/li&gt;
+    &lt;li&gt;CSS&lt;/li&gt;
+    &lt;li&gt;JavaScript&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <h3>2. Ordered List (Numbered)</h3>
+    <pre><code>&lt;ol&gt;
+    &lt;li&gt;Wake up&lt;/li&gt;
+    &lt;li&gt;Brush teeth&lt;/li&gt;
+    &lt;li&gt;Code!&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+    <h3>3. Description List (Term + Definition)</h3>
+    <pre><code>&lt;dl&gt;
+    &lt;dt&gt;HTML&lt;/dt&gt;
+    &lt;dd&gt;Structures web pages&lt;/dd&gt;
+    &lt;dt&gt;CSS&lt;/dt&gt;
+    &lt;dd&gt;Styles web pages&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+    <div class="example">
+        <strong>🌍 Real-World:</strong> Restaurant menus use lists. Recipe websites use ordered lists for steps. Wikipedia uses description lists for terms.
+    </div>
+
+    <h2>Tables — Organizing Data</h2>
+    <pre><code>&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Name&lt;/th&gt;
+        &lt;th&gt;Score&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Virat Kohli&lt;/td&gt;
+        &lt;td&gt;82&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Rohit Sharma&lt;/td&gt;
+        &lt;td&gt;120&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+    <table>
+        <tr><th>Tag</th><th>Meaning</th></tr>
+        <tr><td><code>&lt;table&gt;</code></td><td>Creates the table</td></tr>
+        <tr><td><code>&lt;tr&gt;</code></td><td>Table Row</td></tr>
+        <tr><td><code>&lt;th&gt;</code></td><td>Table Header (bold, centered)</td></tr>
+        <tr><td><code>&lt;td&gt;</code></td><td>Table Data (regular cell)</td></tr>
+    </table>
+
+    <h2>Merging Cells</h2>
+    <pre><code>&lt;td colspan="2"&gt;Spans 2 columns&lt;/td&gt;  &lt;!-- Merge horizontally --&gt;
+&lt;td rowspan="2"&gt;Spans 2 rows&lt;/td&gt;     &lt;!-- Merge vertically --&gt;</code></pre>
+
+    <div class="example">
+        <strong>🌍 Real-World:</strong> Cricket scorecards, exam results, product comparison charts, and invoice tables all use HTML tables.
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER 6 -->
+    <!-- ========================================== -->
+    <h1>📝 Chapter 6: Forms — Getting User Input</h1>
+
+    <h2>What is a Form?</h2>
+    <p>A form collects information from users. Every time you <strong>log in, search, sign up, or post a comment</strong> — you're using an HTML form.</p>
+
+    <h2>Basic Login Form</h2>
+    <pre><code>&lt;form action="/login" method="POST"&gt;
+    &lt;label&gt;Email:&lt;/label&gt;
+    &lt;input type="email" placeholder="Enter email" required&gt;
+    
+    &lt;label&gt;Password:&lt;/label&gt;
+    &lt;input type="password" placeholder="Enter password" required&gt;
+    
+    &lt;button type="submit"&gt;Login&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <h2>All Input Types</h2>
+    <table>
+        <tr><th>Type</th><th>What It Creates</th></tr>
+        <tr><td><code>text</code></td><td>Single-line text field</td></tr>
+        <tr><td><code>email</code></td><td>Email with validation</td></tr>
+        <tr><td><code>password</code></td><td>Masked password field</td></tr>
+        <tr><td><code>number</code></td><td>Numeric input with arrows</td></tr>
+        <tr><td><code>date</code></td><td>Date picker</td></tr>
+        <tr><td><code>checkbox</code></td><td>Multiple choice (square)</td></tr>
+        <tr><td><code>radio</code></td><td>Single choice (circle)</td></tr>
+        <tr><td><code>file</code></td><td>File upload button</td></tr>
+        <tr><td><code>submit</code></td><td>Submit button</td></tr>
+        <tr><td><code>color</code></td><td>Color picker</td></tr>
+        <tr><td><code>range</code></td><td>Slider</td></tr>
+        <tr><td><code>tel</code></td><td>Phone number</td></tr>
+        <tr><td><code>url</code></td><td>Website URL</td></tr>
+    </table>
+
+    <h2>Important Form Elements</h2>
+    <pre><code>&lt;!-- Dropdown --&gt;
+&lt;select&gt;
+    &lt;option&gt;India&lt;/option&gt;
+    &lt;option&gt;USA&lt;/option&gt;
+    &lt;option&gt;UK&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- Multi-line text --&gt;
+&lt;textarea rows="4" placeholder="Your message..."&gt;&lt;/textarea&gt;
+
+&lt;!-- Label (clickable text for inputs) --&gt;
+&lt;label for="email"&gt;Email Address&lt;/label&gt;
+&lt;input type="email" id="email"&gt;</code></pre>
+
+    <h2>Validation Attributes</h2>
+    <table>
+        <tr><th>Attribute</th><th>What It Does</th></tr>
+        <tr><td><code>required</code></td><td>Field cannot be empty</td></tr>
+        <tr><td><code>placeholder</code></td><td>Hint text shown inside field</td></tr>
+        <tr><td><code>maxlength</code></td><td>Maximum characters allowed</td></tr>
+        <tr><td><code>min / max</code></td><td>Number range limits</td></tr>
+        <tr><td><code>pattern</code></td><td>Custom validation (regex)</td></tr>
+    </table>
+
+    <div class="example">
+        <strong>🌍 Real-World:</strong> Google's search bar is an <code>&lt;input type="text"&gt;</code>. Amazon's login is a form with <code>email</code> and <code>password</code> inputs. Every checkout page you've ever used is an HTML form!
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER 7 -->
+    <!-- ========================================== -->
+    <h1>🏗️ Chapter 7: Layout & Structure</h1>
+
+    <h2>Div & Span — The Containers</h2>
+    <p><code>&lt;div&gt;</code> is a <strong>block container</strong> — it takes the full width and starts on a new line.</p>
+    <p><code>&lt;span&gt;</code> is an <strong>inline container</strong> — it only takes as much space as needed.</p>
+    <pre><code>&lt;div style="background:purple;color:white;padding:20px;"&gt;
+    &lt;h2&gt;Section Title&lt;/h2&gt;
+    &lt;p&gt;This is inside a div.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is &lt;span style="color:red;"&gt;red text&lt;/span&gt; inside a paragraph.&lt;/p&gt;</code></pre>
+
+    <h2>Semantic Layout Tags</h2>
+    <p>HTML5 introduced meaningful tags that describe what each section IS:</p>
+    <table>
+        <tr><th>Tag</th><th>What It Means</th></tr>
+        <tr><td><code>&lt;header&gt;</code></td><td>Top section — logo, title, nav</td></tr>
+        <tr><td><code>&lt;nav&gt;</code></td><td>Navigation menu</td></tr>
+        <tr><td><code>&lt;main&gt;</code></td><td>Unique page content (only ONE!)</td></tr>
+        <tr><td><code>&lt;section&gt;</code></td><td>A thematic group of content</td></tr>
+        <tr><td><code>&lt;article&gt;</code></td><td>Independent content (blog post)</td></tr>
+        <tr><td><code>&lt;aside&gt;</code></td><td>Sidebar, related links, ads</td></tr>
+        <tr><td><code>&lt;footer&gt;</code></td><td>Bottom section — copyright, links</td></tr>
+    </table>
+
+    <h2>Complete Page Layout</h2>
+    <pre><code>&lt;body&gt;
+    &lt;header&gt;Logo &amp; Site Name&lt;/header&gt;
+    &lt;nav&gt;Home | About | Contact&lt;/nav&gt;
+    &lt;main&gt;
+        &lt;article&gt;Main blog post&lt;/article&gt;
+        &lt;aside&gt;Sidebar with links&lt;/aside&gt;
+    &lt;/main&gt;
+    &lt;footer&gt;© 2026 My Website&lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+
+    <div class="diagram">
+┌──────────────────────────────────┐
+│          &lt;header&gt;               │  ← Logo, site name
+├──────────────────────────────────┤
+│  Home | About | Contact          │  ← &lt;nav&gt;
+├────────────────┬─────────────────┤
+│                │                 │
+│   &lt;main&gt;      │   &lt;aside&gt;      │
+│   Main content │   Sidebar       │
+│                │                 │
+├────────────────┴─────────────────┤
+│          &lt;footer&gt;               │  ← Copyright, links
+└──────────────────────────────────┘
+    </div>
+
+    <div class="example">
+        <strong>🌍 Real-World:</strong> Every news website (BBC, CNN, Times of India) uses this exact structure — header with logo, nav with categories, main article, sidebar with related news, and footer.
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER 8 -->
+    <!-- ========================================== -->
+    <h1>🎬 Chapter 8: Multimedia — Video & Audio</h1>
+
+    <h2>Embedding Video</h2>
+    <pre><code>&lt;video width="640" controls&gt;
+    &lt;source src="myvideo.mp4" type="video/mp4"&gt;
+    Your browser doesn't support video.
+&lt;/video&gt;</code></pre>
+
+    <h2>Video Attributes</h2>
+    <table>
+        <tr><th>Attribute</th><th>What It Does</th></tr>
+        <tr><td><code>controls</code></td><td>Shows play, pause, volume buttons</td></tr>
+        <tr><td><code>autoplay</code></td><td>Starts playing automatically</td></tr>
+        <tr><td><code>muted</code></td><td>Starts with no sound</td></tr>
+        <tr><td><code>loop</code></td><td>Replays when finished</td></tr>
+        <tr><td><code>poster</code></td><td>Image shown before video plays</td></tr>
+    </table>
+
+    <h2>Embedding YouTube Videos</h2>
+    <pre><code>&lt;iframe width="560" height="315"
+    src="https://www.youtube.com/embed/VIDEO_ID"
+    allowfullscreen&gt;
+&lt;/iframe&gt;</code></pre>
+
+    <h2>Embedding Audio</h2>
+    <pre><code>&lt;audio controls&gt;
+    &lt;source src="song.mp3" type="audio/mpeg"&gt;
+    Your browser doesn't support audio.
+&lt;/audio&gt;</code></pre>
+
+    <div class="example">
+        <strong>🌍 Real-World:</strong> Spotify's web player uses <code>&lt;audio&gt;</code>. YouTube uses <code>&lt;iframe&gt;</code>. Netflix uses <code>&lt;video&gt;</code>. Every video you watch online uses one of these tags!
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER 9 -->
+    <!-- ========================================== -->
+    <h1>🎨 Chapter 9: Making It Pretty — CSS Basics</h1>
+
+    <h2>Three Ways to Add CSS</h2>
+    <table>
+        <tr><th>Method</th><th>How</th><th>Best For</th></tr>
+        <tr><td><strong>Inline</strong></td><td><code>&lt;p style="color:red;"&gt;</code></td><td>Quick tests</td></tr>
+        <tr><td><strong>Internal</strong></td><td><code>&lt;style&gt;</code> in head</td><td>Single pages</td></tr>
+        <tr><td><strong>External</strong></td><td><code>&lt;link href="style.css"&gt;</code></td><td>Whole websites ✅</td></tr>
+    </table>
+
+    <h2>Common CSS Properties</h2>
+    <table>
+        <tr><th>Property</th><th>What It Changes</th><th>Example</th></tr>
+        <tr><td><code>color</code></td><td>Text color</td><td><code>color: red;</code></td></tr>
+        <tr><td><code>background-color</code></td><td>Background</td><td><code>background: #f0f0f0;</code></td></tr>
+        <tr><td><code>font-size</code></td><td>Text size</td><td><code>font-size: 18px;</code></td></tr>
+        <tr><td><code>font-family</code></td><td>Font type</td><td><code>font-family: Arial;</code></td></tr>
+        <tr><td><code>text-align</code></td><td>Alignment</td><td><code>text-align: center;</code></td></tr>
+        <tr><td><code>margin</code></td><td>Outer space</td><td><code>margin: 20px;</code></td></tr>
+        <tr><td><code>padding</code></td><td>Inner space</td><td><code>padding: 15px;</code></td></tr>
+        <tr><td><code>border</code></td><td>Border</td><td><code>border: 1px solid black;</code></td></tr>
+        <tr><td><code>border-radius</code></td><td>Rounded corners</td><td><code>border-radius: 10px;</code></td></tr>
+        <tr><td><code>width / height</code></td><td>Size</td><td><code>width: 300px;</code></td></tr>
+    </table>
+
+    <h2>Responsive Design — Works on All Screens</h2>
+    <pre><code>/* Mobile-first styles */
+.container { width: 100%; }
+
+/* Tablets and larger */
+@media (min-width: 768px) {
+    .container { width: 80%; }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .container { max-width: 1200px; }
+}</code></pre>
+
+    <div class="tip">
+        <strong>💡 Key Rule:</strong> Always design for <strong>mobile first</strong>, then add styles for larger screens using <code>@media</code> queries.
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CHAPTER 10 -->
+    <!-- ========================================== -->
+    <h1>🚀 Chapter 10: Real-World Projects</h1>
+
+    <h2>Project 1: Personal Portfolio Page</h2>
+    <p>Build a page with:</p>
+    <ul>
+        <li>Header with your name</li>
+        <li>About Me section with photo</li>
+        <li>Skills list</li>
+        <li>Contact form</li>
+    </ul>
+
+    <h2>Project 2: Restaurant Menu</h2>
+    <p>Create a menu with:</p>
+    <ul>
+        <li>Restaurant name and tagline</li>
+        <li>Menu sections (Starters, Main Course, Desserts)</li>
+        <li>Each item with name, description, and price</li>
+        <li>A table for pricing</li>
+    </ul>
+
+    <h2>Project 3: Login & Signup Page</h2>
+    <p>Build a page with:</p>
+    <ul>
+        <li>Two tabs: Login and Signup</li>
+        <li>Email and password inputs</li>
+        <li>Show/hide password button</li>
+        <li>Submit button</li>
+    </ul>
+
+    <h2>Project 4: Responsive Landing Page</h2>
+    <p>Create a landing page that:</p>
+    <ul>
+        <li>Looks good on mobile AND desktop</li>
+        <li>Has a hero section with CTA button</li>
+        <li>Features section with cards</li>
+        <li>Footer with social links</li>
+    </ul>
+
+    <div class="example">
+        <strong>🌍 Real-World:</strong> These 4 projects cover 80% of what professional web developers build daily. Master these and you're job-ready!
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CHEAT SHEET -->
+    <!-- ========================================== -->
+    <h1>📋 Quick Cheat Sheet</h1>
+
+    <h2>Most Used Tags</h2>
+    <table>
+        <tr><th>Tag</th><th>Purpose</th></tr>
+        <tr><td><code>&lt;html&gt;</code></td><td>Root element</td></tr>
+        <tr><td><code>&lt;head&gt;</code></td><td>Metadata</td></tr>
+        <tr><td><code>&lt;title&gt;</code></td><td>Browser tab text</td></tr>
+        <tr><td><code>&lt;body&gt;</code></td><td>Visible content</td></tr>
+        <tr><td><code>&lt;h1&gt;–&lt;h6&gt;</code></td><td>Headings</td></tr>
+        <tr><td><code>&lt;p&gt;</code></td><td>Paragraph</td></tr>
+        <tr><td><code>&lt;a&gt;</code></td><td>Link</td></tr>
+        <tr><td><code>&lt;img&gt;</code></td><td>Image</td></tr>
+        <tr><td><code>&lt;div&gt;</code></td><td>Block container</td></tr>
+        <tr><td><code>&lt;span&gt;</code></td><td>Inline container</td></tr>
+        <tr><td><code>&lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;</code></td><td>Lists</td></tr>
+        <tr><td><code>&lt;table&gt;</code></td><td>Table</td></tr>
+        <tr><td><code>&lt;form&gt;</code></td><td>Form</td></tr>
+        <tr><td><code>&lt;input&gt;</code></td><td>Form input</td></tr>
+        <tr><td><code>&lt;button&gt;</code></td><td>Button</td></tr>
+        <tr><td><code>&lt;video&gt;</code></td><td>Video</td></tr>
+        <tr><td><code>&lt;audio&gt;</code></td><td>Audio</td></tr>
+        <tr><td><code>&lt;iframe&gt;</code></td><td>Embedded content</td></tr>
+    </table>
+
+    <h2>Most Used Attributes</h2>
+    <table>
+        <tr><th>Attribute</th><th>Used On</th><th>Purpose</th></tr>
+        <tr><td><code>href</code></td><td><code>&lt;a&gt;</code></td><td>URL of the link</td></tr>
+        <tr><td><code>src</code></td><td><code>&lt;img&gt;, &lt;video&gt;</code></td><td>Source file path</td></tr>
+        <tr><td><code>alt</code></td><td><code>&lt;img&gt;</code></td><td>Alternative text</td></tr>
+        <tr><td><code>class</code></td><td>All elements</td><td>CSS class name</td></tr>
+        <tr><td><code>id</code></td><td>All elements</td><td>Unique identifier</td></tr>
+        <tr><td><code>style</code></td><td>All elements</td><td>Inline CSS</td></tr>
+        <tr><td><code>type</code></td><td><code>&lt;input&gt;</code></td><td>Input type</td></tr>
+        <tr><td><code>required</code></td><td><code>&lt;input&gt;</code></td><td>Make field mandatory</td></tr>
+    </table>
+
+    <!-- ========================================== -->
+    <!-- FOOTER -->
+    <!-- ========================================== -->
+    <div style="text-align:center;margin-top:60px;padding:40px;border-top:3px solid var(--accent);">
+        <h2 style="color:var(--accent);">🎉 Congratulations!</h2>
+        <p style="color:var(--text-muted);font-size:16px;">
+            You've completed the HTML Ultimate Handbook!<br>
+            You now know enough HTML to build real websites.
+        </p>
+        <p style="color:var(--text-muted);font-size:13px;margin-top:15px;">
+            📚 Dion Learn • Learn • Build • Create 🚀<br>
+            © 2026 — Free Learning for Everyone
+        </p>
+    </div>
+
+<script src="auth.js"></script>
+</body>
+</html>
